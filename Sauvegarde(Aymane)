@@ -1,0 +1,18 @@
+typedef struct{
+	int* pioche principale[];
+}à poursuivre..(save)
+int pioche_principale[150]={0};
+
+save constructeur_sauvegarde(){
+	do(
+	char a;
+	printf("Voulez vous sauvegarder? O pour oui ou N pour non:")
+	scanf(%c,&a);
+	)while (a != 'O' || a != 'o' || a != 'n' || a != 'N');
+	if (a =='n' || a=='N'){
+		exit(1);
+	}
+	else{
+	for(int i=0; i<150;i++
+MODIFIER LE CODE EN ANGLAIS
+	
