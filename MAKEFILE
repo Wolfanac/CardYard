@@ -8,9 +8,9 @@ SRC=main.c affichage.c fonction.c
 all: $(PROG)
 	./s(PROG)
 	
-	#Compilation du programme
-	$(PROG): $(SRC) fichier.h
+#Compilation du programme
+$(PROG): $(SRC) fichier.h
 	gcc -Wall -o $(PROG) $(SRC)
-	#Nettoyage
-	clean:
+#Nettoyage
+clean:
 	rm -f $(PROG)
