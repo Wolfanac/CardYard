@@ -1,0 +1,16 @@
+PROG=projet
+
+#Sources
+
+SRC=main.c affichage.c fonction.c
+
+#Règle par défaut : compile et exécute
+all: $(PROG)
+	./s(PROG)
+	
+	#Compilation du programme
+	$(PROG): $(SRC) fichier.h
+	gcc -Wall -o $(PROG) $(SRC)
+	#Nettoyage
+	clean:
+	rm -f $(PROG)
