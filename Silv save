@@ -1,0 +1,58 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int cards_atribution(){
+	//create a file to store, create, and position randomely the cards in it
+	FILE* usedcards = NULL;
+	usedcards = fopen("cards.txt", "w+");
+	//check if the file have been open
+	if (usedcards == NULL) {
+		printf("ouverture impossible");
+		exit(1);
+	}
+	srand(time(NULL));
+	//create the cards order in the file
+	int values[15] = {0};
+	int maxes[15] = {5, 10, 15, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10};
+	char* labels[15] = {"-2", "-1", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"};
+	int card=rand()%15;
+	int i=0;
+	while (i<140){
+		if (values[card] < maxes[card]) {
+			fputs(labels[card], usedcards);
+			fputs(" ", usedcards);
+			values[card]++;
+			i++;
+		}
+		else{
+			card=rand()%15;
+		}
+		card=rand()%15;
+	}
+	fclose(usedcards);
+	return(0);
+}
+
+
+int cards_change(){
+	FILE* usedcards = NULL;
+	usedcards = fopen("cards.txt", "a+");
+	//check if the file have been open
+	if (usedcards == NULL) {
+		printf("ouverture impossible");
+		exit(1);
+	}
+	rewind(usedcards);
+	//make the player change the values in the pile of cards
+	char* fileupdate[1000], a='0', i=0;
+	char  value[10];
+	printf("do you wish to change some cards ? ");
+	scanf("%s", value);
+    if (strcmp(value, "yes") == 0) {
+    	printf("what numbers do you wish to change ? (between -2 and 12) ");
+    	scanf("%d", &changenumber);
+		while (a!=EOF){
+			a=fgetc(usedcards);
+			fileupdate[i]=a;
+			i++;
