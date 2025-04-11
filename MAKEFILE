@@ -1,16 +1,14 @@
-PROG=projet
+PROG = projet
 
-#Sources
+SRC = main.c gameInit.c playerHandler.c printingScreen.c basicFonction.c
 
-SRC=main.c affichage.c fonction.c
+all: $(PROG) 
+	./$(PROG)
 
-#Règle par défaut : compile et exécute
-all: $(PROG)
-	./s(PROG)
-	
 #Compilation du programme
-$(PROG): $(SRC) fichier.h
+$(PROG): $(SRC) include.h player.h gameInit.h
 	gcc -Wall -o $(PROG) $(SRC)
+
 #Nettoyage
 clean:
 	rm -f $(PROG)
