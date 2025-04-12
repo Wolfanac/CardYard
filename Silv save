@@ -52,7 +52,7 @@ int cards_change(){
     //make the player change the values in the pile of cards
     int a=0;
     char  value[10];
-    int i=0, number=0, ii=0, fileupdate[140], changenumber, originalnumber;
+    int i=0, number=0, v=0, fileupdate[140], changenumber, originalnumber;
     printf("\n do you wish to change some cards ? ");
     scanf("%s", value);
 
@@ -70,9 +70,9 @@ int cards_change(){
         }
 
         //change the values in the list
-        while (ii<i){
-            if (fileupdate[ii]==originalnumber){
-                fileupdate[ii]=changenumber;
+        while (v<i){
+            if (fileupdate[v]==originalnumber){
+                fileupdate[v]=changenumber;
                 number++;
             }
             ii++;
@@ -85,10 +85,10 @@ int cards_change(){
         freopen("cards.txt", "w", usedcards);
 
         //print the list in the file
-        while (ii<i){
-            fprintf(usecards, "%d", fileupdate[ii]);
+        while (v<i){
+            fprintf(usedcards, "%d", fileupdate[v]);
             fputs(" ", usedcards);
-            ii++;
+            v++;
         }
 
         //ask to continue
@@ -100,4 +100,3 @@ int cards_change(){
     fclose(usedcards);
     return(0);
 }
-
