@@ -28,9 +28,6 @@ int cards_atribution(){
             values[card]++;
             i++;
         }
-        else{
-            card=rand()%15;
-        }
         card=rand()%15;
     }
     fclose(usedcards);
@@ -59,6 +56,11 @@ int cards_change(){
     while (strcmp(value, "no") != 0){
 
         while (strcmp(value, "yes") == 0) {
+
+            i = 0;
+            v = 0;
+            number = 0;
+
             printf("\n what numbers do you wish to change ?");
             scanf("%d", &originalnumber);
             printf("\n to what number ?");
@@ -80,7 +82,7 @@ int cards_change(){
                 v++;
             }
             if (number==0){
-                printf("no %d number found", changenumber);
+                printf("no %d number found", originalnumber);
             }
             rewind(usedcards);
             v=0;
@@ -100,15 +102,10 @@ int cards_change(){
         }
 
         //mistypes
-        if (strcmp(value, "yes") != 0){
-            printf("\nplease enter a correct value");
-            printf("\n what numbers do you wish to change ?");
-            scanf("%d", &originalnumber);
-            printf("\n to what number ?");
-            scanf("%d", &changenumber);
-            freopen("cards.txt", "r", usedcards);
+        else {
+            printf("\nPlease enter either 'yes' or 'no': ");
+            scanf("%s", value);
         }
-
 
     }
 
@@ -116,8 +113,4 @@ int cards_change(){
 
     fclose(usedcards);
     return 0;
-}
-
-    fclose(usedcards);
-    return(0);
 }
