@@ -1,3 +1,4 @@
+#include <stdio.h>
 #DEFINE SIZE 100
 
 typedef struct{
@@ -18,7 +19,10 @@ void demandeur_sauvegarde(){
 		exit(1);
 	}
 	else{
-	
+	printf("Début du processus de sauvegarde");
+	}
+	}
+	void principale_deck_save(){
 	int *pioche_principale=calloc(n,sizeof(int))
 	int i=0;
 	récupérateur_piocheprincipale=0;
@@ -28,7 +32,15 @@ void demandeur_sauvegarde(){
 		fprintf(zone_enregistrement,"%d",pioche_principale[i]);
 	}
 	}
-	zone_enregistrement(fichier);
-	
+    
+   void save_all_discard_piles(Player* players, int nb_player) {
+    FILE* file = fopen("discardpile.txt", "w");
+    for (int i = 0; i < nb_player; i++) {
+        fprintf(file, "DISCARD_PILE %s %d\n", players[i].nickname, players[i].discard_pile);
+        for (int j = 0; j < players[i].discard_size; j++) {
+            fprintf(file, "%d\n", players[i].discard_pile[j]);
+        }
+        fprintf(file, "END_DISCARD_PILE\n");
+    }
 
-void récupérateur
+    fclose(file);
