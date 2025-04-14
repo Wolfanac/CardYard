@@ -12,7 +12,7 @@ char* AskNickname(){
         printf("\nHow many characters in your nickname? ");
         scanf("%d", &nb_char);
         if (nb_char > 100) {
-            printf("- Error - ending the program\n");
+            printf("\n- Error - Too many characters - ending the program");
             exit(1);
         }
     
@@ -20,17 +20,17 @@ char* AskNickname(){
     
         name = realloc(name, (nb_char + 1) * sizeof(char));
         if (name == NULL) {
-            printf("- Error allocating nickname\n");
+            printf("\n- Error allocating nickname");
             exit(1);
         }
     
         temp = realloc(temp, (nb_char + 2) * sizeof(char)); 
         if (temp == NULL) {
-            printf("- Error allocating temp\n");
+            printf("\n- Error allocating temp");
             exit(1);
         }
     
-        printf("Write the name of your player: ");
+        printf("\nWrite the name of your player: ");
         fgets(temp, nb_char + 2, stdin); 
     
         size_t len = strlen(temp);
@@ -43,7 +43,7 @@ char* AskNickname(){
         
     
         if ((int)len != nb_char) {
-            printf("\nYou didn't enter exactly %d characters. Enter the number of characters you want once again.\n", nb_char);
+            printf("\nYou didn't enter exactly %d characters. Enter the number of characters you want once again.", nb_char);
         }
     
     } while (strlen(temp) != nb_char);
@@ -60,7 +60,7 @@ Player* create_player(int card_user, int pos, int redoing) {
         printf("\nCreating a new player...");
     }
     else {
-        printf("Redoing the player...");
+        printf("\nRedoing the player...");
     }
     Sleep(2000);
     printf("...");
@@ -68,7 +68,7 @@ Player* create_player(int card_user, int pos, int redoing) {
   
     Player* j1 = malloc(sizeof(Player));
     if (j1 == NULL) {
-        printf("- Error when trying to allocate space ");
+        printf("\n- Error when trying to allocate space ");
         exit(1);
     }
 
@@ -91,6 +91,8 @@ Player* create_player(int card_user, int pos, int redoing) {
     j1->nb_card_user=card_user;
 
     j1->discard_pile=NULL;
+
+    j1->discard_pile=0;
 
     return j1;
 }
@@ -166,3 +168,14 @@ int CheckPlayer(Player *p, int a) {
     }
 }
 
+void addDiscardPile(Player* p, Card addCard) {
+    Card* temp = realloc(p->discard_pile, (p->discard_size + 1) * sizeof(Card));
+    if (temp == NULL) {
+        printf("Erreur de realloc dans add_to_discard_pile\n");
+        exit(1);
+    }
+
+    p->discard_pile = temp;
+    p->discard_pile[p->discard_size] = addCard;
+    p->discard_size++;
+}

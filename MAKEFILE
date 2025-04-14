@@ -5,10 +5,10 @@ SRC = main.c gameInit.c playerHandler.c printingScreen.c basicFonction.c
 all: $(PROG) 
 	./$(PROG)
 
-#Compilation du programme
+#Program compilating
 $(PROG): $(SRC) include.h player.h gameInit.h
 	gcc -Wall -o $(PROG) $(SRC)
 
-#Nettoyage
+#cleaning
 clean:
 	rm -f $(PROG)

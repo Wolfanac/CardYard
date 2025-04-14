@@ -17,3 +17,27 @@ void printPlayer(Player *p){
     printf("The sum of visible cards is %d\n\n", sum);
     
 }
+
+
+void printTopDiscardPile(Player* p){
+    int taille=p->discard_size;
+    if (taille!=0){
+        printf("\nTop Discard card: %d", p->discard_pile[taille-1].value);
+    }
+    else {
+        printf("\nTop Discard card: None");
+    }
+}
+
+void printTotalDiscardPile(Player* p){
+    int taille=p->discard_size;
+    if (taille!=0){
+        printf("\nCards in your discard pile are: ");
+        for (int i=0; i<taille; i++){
+            printf("%d ", p->discard_pile[i].value);
+        }
+    }
+    else{
+        printf("You don't have any card in you discard pile");
+    }
+}

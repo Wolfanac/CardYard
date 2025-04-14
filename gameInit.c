@@ -39,7 +39,7 @@ Player** InitGame(int* nb_player, int *nb_card_user, int* row, int* col){
     int validPlayer = 0;
     int tempNumberPlayer=*nb_player;
     for (int i = 0; i < *nb_player; i++) {
-        Player* new_player = create_player(*nb_card_user, validPlayer, 0);
+        Player* new_player = create_player(*nb_card_user, validPlayer+1, 0);
         if (CheckPlayer(new_player, 0) == 1) {
             game[validPlayer++] = new_player;
             printf("The player has been created with success\n");

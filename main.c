@@ -14,7 +14,7 @@ int main(){
         printf("Error: Game could not be initialized.\n");
         exit(1);
     }
-
+    
     for (int i = 0; i < nb_player; i++) {
         free(game[i]);
     }

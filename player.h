@@ -6,7 +6,8 @@ typedef struct {
 
 typedef struct{
     Card* card;
-    int* discard_pile;
+    Card* discard_pile;
+    int discard_size;
     char* nickname;
     // int pioche;
     int position;
@@ -18,6 +19,10 @@ Player* create_player(int nb_card_user, int pos, int redoing);
 
 int CheckPlayer(Player *p, int a);
 
+char* AskNickname();
+
 void printPlayer(Player *p);
 
-char* AskNickname();
+void printTopDiscardPile(Player* p);
+
+void printTotalDiscardPile(Player* p);
