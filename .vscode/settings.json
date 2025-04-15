@@ -60,6 +60,7 @@
     "fichier.h": "c",
     "string.h": "c",
     "include.h": "c",
-    "player.h": "c"
+    "player.h": "c",
+    "limits": "c"
   }
 }
