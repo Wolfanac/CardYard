@@ -1,6 +1,6 @@
 PROG = projet
 
-SRC = main.c gameInit.c playerHandler.c printingScreen.c basicFonction.c
+SRC = main.c gameInit.c playerHandler.c printingScreen.c basicFonction.c cards_attribution.c piles.c
 
 all: $(PROG) 
 	./$(PROG)

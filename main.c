@@ -3,23 +3,45 @@
 
 //main that will call different fonction to create the game
 int main(){
-    // int* pile;
-    // int nb_card_pile;
+    FILE* file = cards_atribution();
+    if (file==NULL){
+        printf("- Error creating cards");
+    }
+    Card* pile=NULL;
+
+    int size_main_pile;
+    int highest_card;
     int nb_player;
     int nb_card_user;
     int row, col;
 
-    Player** game=InitGame(&nb_player, &nb_card_user, &row, &col);
+    printf("The main pile will have 140 cards");
+    size_main_pile=140;
+    pile=malloc(size_main_pile*sizeof(Card));
+    createPile(file, pile, size_main_pile);
+
+    Player** game=InitGame(file, &nb_player, &nb_card_user);
     if (game==NULL){
-        printf("Error: Game could not be initialized.\n");
+        printf("- Error - Game could not be initialized.\n");
         exit(1);
     }
     
+    highest_card=findHighestCard(pile, &size_main_pile);
+    
+    Board(&row, &col, nb_card_user);
+    
+    printBoard(game[0], row, col, highest_card);
+
+    Card drawnCard=DrawCard(&pile, &size_main_pile, highest_card);
+
     for (int i = 0; i < nb_player; i++) {
         free(game[i]);
     }
     free(game);
 
+    free(pile);
+
+    fclose(file);
 
     return 0;
 }

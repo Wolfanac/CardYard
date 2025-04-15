@@ -2,12 +2,11 @@
 #include "gameInit.h"
 
 
-
 //Fonction that initiates the game
 //Creating number of player, number of cards, and the board with all players that are going to be created
-Player** InitGame(int* nb_player, int *nb_card_user, int* row, int* col){  
-    
-    printf("How many cards will you start with ? ");
+Player** InitGame(FILE* file, int* nb_player, int *nb_card_user){  
+
+    printf("\nHow many cards will you start with ? ");
     do{
         scanf("%d", nb_card_user);
         if (*nb_card_user<0){
@@ -60,7 +59,6 @@ Player** InitGame(int* nb_player, int *nb_card_user, int* row, int* col){
     }
     *nb_player=validPlayer;
 
-    Board(row, col, *nb_card_user);
     
     return game;
 }
@@ -93,4 +91,3 @@ void Board(int* row, int* col, int nb_card_user){
     }while ((*row)*(*col)!=nb_card_user);
     printf("\nThe board you have chosen is composed of %d rows and %d columns\n", *row, *col);
 }
-
