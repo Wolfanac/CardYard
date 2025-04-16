@@ -15,6 +15,8 @@ typedef struct{
 
 Player* create_player(int nb_card_user, int pos, int redoing);
 
+void createPile(FILE* file, Card* pile, int size);
+
 int CheckPlayer(Player *p, int a);
 
 char* AskNickname();
@@ -36,3 +38,7 @@ void printBoard(Player* p, int row, int col, int max);
 char* colorChoice(Card card, int max);
 
 int findHighestCard(Card* pile, int* size_main_pile);
+
+void replaceCard(Player* p, Card replacingCard, int index);
+
+Card takeDiscardPile(Player* p);

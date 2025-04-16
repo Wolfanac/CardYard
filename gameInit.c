@@ -99,7 +99,7 @@ void initiatePlayerboard(Player** game, int nb_player, int nb_card, Card** pile,
     int index;
     srand(time(NULL));
     for (int i=0; i<nb_player; i++){
-        printf("\nCreating the board for the %d player...", game[i]->position);
+        printf("\nCreating the board for the player n°%d...", game[i]->position);
         Sleep(1500);
         printf("...");
         Sleep(1500);
@@ -124,5 +124,54 @@ void initiatePlayerboard(Player** game, int nb_player, int nb_card, Card** pile,
             game[i]->card[index-1].visibility=1;
             temp=index;
         }
+    }
+}
+
+void takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, int max, int row, int col, int nb_player, int nb_card){
+    printf("\nYour board is the following one: ");
+    printBoard(p, row, col, max);
+    printf("\nCards in discard piles are: ");
+    for (int i=0; i<nb_player; i++){
+        printf("\nPlayer %d: ", game[i]->position);
+        printTopDiscardPile(game[i]);
+
+    }
+    char takeCard[8];
+    int index, temp=-1;
+    printf("\nWould you like to draw a card from the main deck or from a discard pile ? Enter 'draw' or 'discard' ");
+    do {
+        scanf("%s", takeCard);
+        if (strcmp(takeCard, "draw") != 0 && strcmp(takeCard, "discard") != 0) {
+            printf("\nInvalid input. Please type 'draw' or 'discard'.\n");
+        }
+    } while (strcmp(takeCard, "draw") != 0 && strcmp(takeCard, "discard") != 0);
+    if (strcmp(takeCard, "draw") == 0){
+        Card cardDrawn=DrawCard(main_pile, size_main_pile);
+        printf("\nThe card drawn is :");
+        printCard(cardDrawn, max);
+        printf("Chose the card you want to replace: \n\nExemple for 2 row and 3 column:\n3 --> third card from the first line\n5 --> second card from the second line\n ");
+        do {
+            printf("\nChose a card to reveal ");
+            scanf("%d", &index);
+            if (index<=0||index>nb_card){
+                printf("- Error - Wrong number - Try again ");
+            }
+            if (index==temp){
+                printf("- Error - Number already chosen ");
+            }
+        }while (index<=0||index>nb_card||index==temp);
+        index--;
+        replaceCard(p, cardDrawn, index);
+    }
+    else {
+        int choix;
+        do {
+            printf("Select the player ");
+            scanf("%d", &choix);
+            if (choix<0||choix>nb_player){
+                printf("- Error - Wrong number - Try again ");
+            }
+        }while(choix<0||choix>nb_player);
+        
     }
 }

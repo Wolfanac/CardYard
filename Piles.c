@@ -33,6 +33,20 @@ void addDiscardPile(Player* p, Card addCard) {
     p->discard_size++;
 }
 
+Card takeDiscardPile(Player* p){
+    Card cardTaken=p->discard_pile[p->discard_size-1];
+    Card* temp = realloc(p->discard_pile, (p->discard_size -1) * sizeof(Card));
+    if (temp == NULL) {
+        printf("\n- Error allocating new discard pile");
+        exit(1);
+    }
+
+    p->discard_pile = temp;
+    p->discard_size--;
+
+    return cardTaken;
+}
+
 Card DrawCard(Card** pile, int *size){
     Card drawnCard=(*pile)[0];
 
@@ -49,4 +63,11 @@ Card DrawCard(Card** pile, int *size){
     (*size)--;
 
     return drawnCard;
+}
+
+void replaceCard(Player* p, Card replacingCard, int index){
+    Card temp=p->card[index];
+    p->card[index].value=replacingCard.value;
+    p->card[index].visibility=1;
+    addDiscardPile(p, temp);
 }

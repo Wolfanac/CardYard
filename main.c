@@ -34,6 +34,7 @@ int main(){
     
     printBoard(game[0], row, col, highest_card);
 
+
     for (int i = 0; i < nb_player; i++) {
         free(game[i]);
     }
