@@ -28,11 +28,11 @@ int main(){
     
     highest_card=findHighestCard(pile, &size_main_pile);
     
-    Board(&row, &col, nb_card_user);
+    choseRowCol(&row, &col, nb_card_user);
+    
+    initiatePlayerboard(game, nb_player, nb_card_user, &pile, &size_main_pile);
     
     printBoard(game[0], row, col, highest_card);
-
-    Card drawnCard=DrawCard(&pile, &size_main_pile, highest_card);
 
     for (int i = 0; i < nb_player; i++) {
         free(game[i]);
