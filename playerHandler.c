@@ -54,7 +54,7 @@ int CheckPlayer(Player *p, int a) {
     if (a == 0) {
         printf("\nI will print what you've written. Confirm by saying 'yes' or 'no': ");
         Sleep(2500);
-        printPlayer(p);
+        printPlayer(p, 1);
         printf("Answer: ");
 
         do {
@@ -83,7 +83,7 @@ int CheckPlayer(Player *p, int a) {
         *p = *create_player(p->nb_card_user, p->position, 1);
         printf("\nThis will be the new player:\n");
         Sleep(1500);
-        printPlayer(p);
+        printPlayer(p, 1);
         printf("\nDoes it correspond to what you wanted? (yes/no): ");
         do {
             scanf("%s", confirm);
@@ -169,6 +169,3 @@ char* AskNickname(){
 
     return name;
 }
-
-
-

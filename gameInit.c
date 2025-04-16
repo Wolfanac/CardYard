@@ -24,10 +24,10 @@ Player** InitGame(FILE* file, int* nb_player, int *nb_card_user){
     printf("\nHow many players ? ");
     do {
         scanf("%d", nb_player);
-        if (*nb_player<2||*nb_player>8){
+        if (*nb_player<1||*nb_player>8){
             printf("You must choose a number between 2 and 8 (both included) ");
         }
-    } while (*nb_player<2||*nb_player>8);
+    } while (*nb_player<1||*nb_player>8);
 
     Player** game = malloc(*(nb_player) * sizeof(Player*));
     if (game==NULL){
@@ -40,13 +40,14 @@ Player** InitGame(FILE* file, int* nb_player, int *nb_card_user){
     for (int i = 0; i < *nb_player; i++) {
         Player* new_player = create_player(*nb_card_user, validPlayer+1, 0);
         if (CheckPlayer(new_player, 0) == 1) {
-            game[validPlayer++] = new_player;
+            game[validPlayer] = new_player;
+            validPlayer++;
             printf("The player has been created with success\n");
         } else {
             printf("The player has been deleted with success\n");
             free(new_player);
             tempNumberPlayer--;
-            if (tempNumberPlayer<2){
+            if (tempNumberPlayer<1){
                 printf("\nNot enough players, end of program.\n");
     
                 for (int j = 0; j < validPlayer; j++) {
@@ -65,7 +66,7 @@ Player** InitGame(FILE* file, int* nb_player, int *nb_card_user){
 
 
 //creates the number of row and columns
-void Board(int* row, int* col, int nb_card_user){
+void choseRowCol(int* row, int* col, int nb_card_user){
     do{
         printf("\nHow many rows do you want ? ");
         do{
@@ -90,4 +91,38 @@ void Board(int* row, int* col, int nb_card_user){
 
     }while ((*row)*(*col)!=nb_card_user);
     printf("\nThe board you have chosen is composed of %d rows and %d columns\n", *row, *col);
+}
+
+
+void initiatePlayerboard(Player** game, int nb_player, int nb_card, Card** pile, int* size_deck){
+    int temp;
+    int index;
+    srand(time(NULL));
+    for (int i=0; i<nb_player; i++){
+        printf("\nCreating the board for the %d player...", game[i]->position);
+        Sleep(1500);
+        printf("...");
+        Sleep(1500);
+        for (int j=0; j<nb_card; j++){
+            Card CardDrawn=DrawCard(pile, size_deck);
+            game[i]->card[j].value=CardDrawn.value;
+        }
+        printf("\nYou will be able to reveal two cards from the board\n\nExemple for 2 row and 3 column:\n3 --> third card from the first line\n5 --> second card from the second line\n ");
+        Sleep(2000);
+        temp=-1;
+        for (int j=0; j<2; j++){
+            do {
+                printf("\nChose a card to reveal ");
+                scanf("%d", &index);
+                if (index<=0||index>nb_card){
+                    printf("- Error - Wrong number - Try again ");
+                }
+                if (index==temp){
+                    printf("- Error - Number already chosen ");
+                }
+            }while (index<=0||index>nb_card||index==temp);
+            game[i]->card[index-1].visibility=1;
+            temp=index;
+        }
+    }
 }

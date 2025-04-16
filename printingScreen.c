@@ -2,7 +2,7 @@
 #include "player.h"
 
 //Priting main informations of the player, name, position, state of discard pile and current progression of cards and point
-void printPlayer(Player *p){
+void printPlayer(Player *p, int begining){
     int sum=0;
     for (int i=0; i<(p->nb_card_user); i++){
         if (p->card[i].visibility==1){
@@ -11,10 +11,12 @@ void printPlayer(Player *p){
     }
     printf("\n\n");
     printf("Player name: %s\n", p->nickname);
-    printf("Player number %d\n", 1+p->position);
-    printf("Discard pile: %s\n", p->discard_pile==NULL ? "None" : "Not empty");
-    printf("You have %d cards left to deal with\n", p->nb_card_user);
-    printf("The sum of visible cards is %d\n\n", sum);
+    printf("Player number: %d\n", p->position);
+    if (begining!=1){
+        printf("Discard pile: %s\n", p->discard_pile==NULL ? "None" : "Not empty");
+        printf("You have %d cards left to deal with\n", p->nb_card_user);
+        printf("The sum of visible cards is %d\n\n", sum);
+    }
     
 }
 
@@ -45,7 +47,14 @@ void printTotalDiscardPile(Player* p){
 void printCard(Card card, int max){
     int height=15;
     int width=15;
-    char* color = colorChoice(card, max);
+    char* color;
+    if (card.visibility==1){
+        color = colorChoice(card, max);
+
+    }
+    else {
+        color="\033[0m";
+    }
     int size;
     char unknown[4]="???";
     if (card.visibility==1){
@@ -92,16 +101,23 @@ void printBoard(Player* p, int row, int col, int max) {
         for (int i = 0; i < height; i++) {        
             for (int c = 0; c < col; c++) {       
                 Card card = p->card[r * col + c]; 
-                char* color = colorChoice(card, max);
-                printf("%s", color);
+                char* color;
                 int size;
                 char unknown[4]="???";
+                if (card.visibility==1){
+                    color = colorChoice(card, max);
+            
+                }
+                else {
+                    color="\033[0m";
+                }
                 if (card.visibility==1){
                     size = sizeNumber(card.value);
                 }
                 else{
                     size=strlen(unknown);
                 }
+                printf("%s", color);
                 for (int j = 0; j < width; j++) { 
                     if (i == 0 || i == height - 1) {
                         printf("-");

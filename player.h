@@ -19,7 +19,7 @@ int CheckPlayer(Player *p, int a);
 
 char* AskNickname();
 
-void printPlayer(Player *p);
+void printPlayer(Player *p, int begining);
 
 void printTopDiscardPile(Player* p);
 
@@ -27,7 +27,7 @@ void printTotalDiscardPile(Player* p);
 
 void addDiscardPile(Player* p, Card addCard);
 
-Card DrawCard(Card** pile, int* size, int max);
+Card DrawCard(Card** pile, int* size);
 
 void printCard(Card card, int max);
 
