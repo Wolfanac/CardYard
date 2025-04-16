@@ -32,19 +32,20 @@ void printTopDiscardPile(Player* p){
 }
 
 void printTotalDiscardPile(Player* p){
-    int size=p->discard_size;
-    if (size!=0){
-        printf("\nCards in your discard pile are: ");
-        for (int i=0; i<size; i++){
-            printf("%d ", p->discard_pile[i].value);
-        }
-    }
-    else{
-        printf("You don't have any card in you discard pile");
-    }
+//     int size=p->discard_size;
+//     if (size!=0){
+//         printf("\nCards in your discard pile are: ");
+//         for (int i=0; i<size; i++){
+//             printf("%d ", p->discard_pile[i].value);
+//         }
+//     }
+//     else{
+//         printf("You don't have any card in you discard pile");
+//     }
 }
 
 void printCard(Card card, int max){
+    printf("\n\n");
     int height=15;
     int width=15;
     char* color;
@@ -94,6 +95,7 @@ void printCard(Card card, int max){
 }
 
 void printBoard(Player* p, int row, int col, int max) {
+    printf("\n\n");
     int height = 15;
     int width = 15;
 
