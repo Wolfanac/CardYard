@@ -98,7 +98,7 @@ FILE* cards_atribution(){
 //         }
 
 //         //mistypes
-//         else {
+//         if (strcmp(value, "no") != 0 && strcmp(value, "yes") != 0) {
 //             printf("\nPlease enter either 'yes' or 'no': ");
 //             scanf("%s", value);
 //         }
