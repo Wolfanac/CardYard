@@ -32,15 +32,5 @@ void demandeur_sauvegarde(){
 		fprintf(zone_enregistrement,"%d",pioche_principale[i]);
 	}
 	}
-    
-   void save_all_discard_piles(Player* players, int nb_player) {
-    FILE* file = fopen("discardpile.txt", "w");
-    for (int i = 0; i < nb_player; i++) {
-        fprintf(file, "DISCARD_PILE %s %d\n", players[i].nickname, players[i].discard_pile);
-        for (int j = 0; j < players[i].discard_size; j++) {
-            fprintf(file, "%d\n", players[i].discard_pile[j]);
-        }
-        fprintf(file, "END_DISCARD_PILE\n");
-    }
 
     fclose(file);
