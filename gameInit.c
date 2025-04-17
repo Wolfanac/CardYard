@@ -72,17 +72,23 @@ void choseRowCol(int* row, int* col, int nb_card_user){
         do{
             scanf("%d", row);
             if (*row<1){
-                printf("You must chose a number greater than 0 ");
+                printf("You must chose a number greater than that ");
             }
-        }while (*row<1);
+            if (*row==1){
+                printf("One row isn't enough as it would mean completing a column each time you reveal a card");
+            }
+        }while (*row<=1);
 
         printf("How many columns do you want ? ");
         do{
             scanf("%d", col);
             if (*col<1){
-                printf("You must chose a number greater than 0 ");
+                printf("You must chose a number greater than that ");
             }
-        }while (*col<1);
+            if (*col==1){
+                printf("One column isn't enough as it would mean having a score of 0 when being the one finishing the game");
+            }
+        }while (*col<=1);
 
         if ((*row)*(*col)!=nb_card_user){
             printf("Chose different values for the row and for the column because it doesn't correspond with the number of cards you chose before ");
@@ -128,6 +134,7 @@ void initiatePlayerboard(Player** game, int nb_player, int nb_card, Card** pile,
 }
 
 void takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, int max, int row, int col, int nb_player, int nb_card){
+    int discard_possibility=0;
     printf("\nIt's the turn of the player number %d, named %s", p->position, p->nickname);
     printf("\nYour board is the following one: ");
     printBoard(p, row, col, max);
@@ -135,18 +142,27 @@ void takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, i
     for (int i=0; i<nb_player; i++){
         printf("\nPlayer number%d (%s): ", game[i]->position, game[i]->nickname);
         printTopDiscardPile(game[i]);
+        if ((game[i]->discard_size)>0){
+            discard_possibility=1;
+        }
         Sleep(1500);
     }
 
     char takeCard[8];
     int index, temp=-1;
-    printf("\nWould you like to draw a card from the main deck or from a discard pile ? Enter 'draw' or 'discard' ");
-    do {
-        scanf("%s", takeCard);
-        if (strcmp(takeCard, "draw") != 0 && strcmp(takeCard, "discard") != 0) {
-            printf("\nInvalid input. Please type 'draw' or 'discard'.\n");
-        }
-    } while (strcmp(takeCard, "draw") != 0 && strcmp(takeCard, "discard") != 0);
+    if (discard_possibility==1){
+        printf("\nWould you like to draw a card from the main deck or from a discard pile ? Enter 'draw' or 'discard' ");
+        do {
+            scanf("%s", takeCard);
+            if (strcmp(takeCard, "draw") != 0 && strcmp(takeCard, "discard") != 0) {
+                printf("\nInvalid input. Please type 'draw' or 'discard'.\n");
+            }
+        } while (strcmp(takeCard, "draw") != 0 && strcmp(takeCard, "discard") != 0);
+    }
+    else{
+        printf("\nAs no one has any card in their discard pile, you can only draw");
+        strcpy(takeCard, "draw");
+    }
 
     if (strcmp(takeCard, "draw") == 0){
         Card cardDrawn=DrawCard(main_pile, size_main_pile);
@@ -168,12 +184,12 @@ void takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, i
     else {
         int choix;
         do {
-            printf("\nSelect the number of the player ");
+            printf("Select the number of the player ");
             scanf("%d", &choix);
-            if (choix<0||choix>nb_player){
+            if (choix<=0||choix>nb_player){
                 printf("\n- Error - Wrong number - Try again ");
             }
-        }while(choix<0||choix>nb_player);
+        }while(choix<=0||choix>nb_player);
         Card cardStolen=takeDiscardPile(game[choix-1]);
         printf("\nThe card taken is");
         printCard(cardStolen, max);
@@ -191,8 +207,17 @@ void takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, i
         replaceCard(p, cardStolen, index);
         
     }
+    checkCol(p, row, col);
     
     printf("\nThe current state of you board is: ");
     printBoard(p, row, col, max);
     printPlayer(p, 0);
+
+    if (checkEnd(p)==1){
+        // endgame();
+        printf("End of the game");
+    }
+    else {
+        printf("\nYou still have at least one card to reveal, the game continues");
+    }
 }

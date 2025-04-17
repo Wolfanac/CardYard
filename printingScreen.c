@@ -102,6 +102,7 @@ void printBoard(Player* p, int row, int col, int max) {
     for (int r = 0; r < row; r++) {               
         for (int i = 0; i < height; i++) {        
             for (int c = 0; c < col; c++) {       
+                // if (strcmp(p->card[r*col+c].exist, "destoyed")==0){continue;}
                 Card card = p->card[r * col + c]; 
                 char* color;
                 int size;

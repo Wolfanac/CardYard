@@ -31,9 +31,9 @@ int main(){
     choseRowCol(&row, &col, nb_card_user);
     
     initiatePlayerboard(game, nb_player, nb_card_user, &pile, &size_main_pile);
-    
-    takeTurn(game, game[0], &pile, &size_main_pile, highest_card, row, col, nb_player, nb_card_user);
-
+    while (TRUE){
+        takeTurn(game, game[0], &pile, &size_main_pile, highest_card, row, col, nb_player, nb_card_user);
+    }
     for (int i = 0; i < nb_player; i++) {
         free(game[i]);
     }

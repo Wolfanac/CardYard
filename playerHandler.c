@@ -169,3 +169,48 @@ char* AskNickname(){
 
     return name;
 }
+
+void checkCol(Player* p, int row, int col){
+    int colToDestroy;
+    int cardValue;
+    for (int i=0; i<(p->nb_card_user)/row; i++){
+        colToDestroy=0;
+        cardValue=p->card[i].value;
+        for (int r=0; r<row; r++){
+            if (p->card[i+i*col].visibility==1 && p->card[i+i*col].value==cardValue){
+                colToDestroy++;
+            }
+            if (r==row && colToDestroy==row){
+                printf("\nYou have a column of same cards, it will be removed");
+                destroyCol(p, row, col, i);
+            }
+        }
+    }
+
+}
+
+void destroyCol(Player* p, int row, int col, int index){
+    printf("\nThe column is being removed...");
+    Sleep(1500);
+    printf("...");
+    int* tabIndice=malloc(row*sizeof(int));
+    if (tabIndice==NULL){
+        printf("\n- Error when destroying column");
+        exit(1);
+    }
+    for (int i=0; i<row; i++){
+        tabIndice[i]=index+i*col;
+    }
+
+    index=0;
+    for (int i=0; i<p->nb_card_user; i++){
+        for (int j=0; j<row; j++){
+            if (i==tabIndice[j]){
+                p->card[i].value=0;
+                p->card[i].exist="Destroyed";
+            }
+        }
+    }
+
+    free(tabIndice);
+}
