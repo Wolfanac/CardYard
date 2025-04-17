@@ -37,3 +37,10 @@ int sizeNumber(int number){
     }
     return taille;
 }
+
+void check_error(FILE * file){
+    if (file == NULL) {
+        printf("Issue with the opening of the file\n");
+        exit(1);
+    }
+}
