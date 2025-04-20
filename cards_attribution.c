@@ -92,6 +92,8 @@ FILE* cards_atribution(){
                  v++;
              }
 
+             printf("done");
+
              //ask to continue
              printf("\ndo you wish to change some cards ? ");
              scanf("%s", value);
