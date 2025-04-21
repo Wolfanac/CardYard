@@ -9,3 +9,34 @@ int checkEnd(Player* p){
     }
     return 1;
 }
+
+void endgame(Player** game, int nb_player, int row, int col, int max){
+    int* result=malloc(nb_player*sizeof(int));
+    printf("\nEnd of the game");
+    printf("\nThe board of each player will be printed");
+    for (int i=0; i<nb_player; i++){
+        printf("\nBoard of %s", game[i]->nickname);
+        for (int j=0; j<game[i]->nb_card_user; j++){
+            if (strcmp(game[i]->card[j].exist, "destroyed")!=0){
+                game[i]->card[j].visibility=1;
+            }
+        }
+        printBoard(game[i], row, col, max);
+        printf("\n\n");
+    }
+    printf("\nThe score of each player will be print");
+    for (int i=0; i<nb_player; i++){
+        result[i]=printPlayer(game[i], 0);
+    }
+
+    int min=result[0];
+    int minIndex=0;
+    for (int i=1; i<nb_player; i++){
+        if (result[i]<min){
+            min=result[i];
+            minIndex=i;
+        }
+    }
+    printf("\nThe winner of the game is the player number %d, which means %s won!", minIndex+1, game[minIndex]->nickname);
+    free(result);
+}

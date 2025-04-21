@@ -27,9 +27,8 @@ FILE* cards_atribution(){
         }
         card=rand()%15;
     }
-    fclose(usedcards);
-    return 0;
-    
+
+    return usedcards;
 }
 
 

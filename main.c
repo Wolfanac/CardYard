@@ -31,9 +31,16 @@ int main(){
     choseRowCol(&row, &col, nb_card_user);
     
     initiatePlayerboard(game, nb_player, nb_card_user, &pile, &size_main_pile);
-    while (TRUE){
-        takeTurn(game, game[0], &pile, &size_main_pile, highest_card, row, col, nb_player, nb_card_user);
+    
+    int index=0;
+    while (takeTurn(game, game[index], &pile, &size_main_pile, highest_card, row, col, nb_player, nb_card_user)){
+        index++;
+        if (index==nb_player){
+            index-=nb_player;
+        }
     }
+    endgame(game, nb_player, row, col, highest_card);
+    
     for (int i = 0; i < nb_player; i++) {
         free(game[i]);
     }
@@ -42,6 +49,7 @@ int main(){
     free(pile);
 
     fclose(file);
+    free(file); //peut être ?
 
     return 0;
 }

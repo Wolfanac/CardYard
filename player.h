@@ -22,7 +22,7 @@ int CheckPlayer(Player *p, int a);
 
 char* AskNickname();
 
-void printPlayer(Player *p, int begining);
+int printPlayer(Player *p, int begining);
 
 void printTopDiscardPile(Player* p);
 
@@ -49,3 +49,5 @@ int checkEnd(Player* p);
 void checkCol(Player* p, int row, int col);
 
 void destroyCol(Player* p, int row, int col, int index);
+
+void endgame(Player** game, int nb_player, int row, int col, int max);

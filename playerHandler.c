@@ -208,6 +208,7 @@ void destroyCol(Player* p, int row, int col, int index){
         for (int j=0; j<row; j++){
             if (i==tabIndice[j]){
                 p->card[i].value=0;
+                p->card[i].visibility=0;
                 p->card[i].exist="destroyed";
             }
         }
