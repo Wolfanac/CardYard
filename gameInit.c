@@ -133,12 +133,12 @@ void initiatePlayerboard(Player** game, int nb_player, int nb_card, Card** pile,
     }
 }
 
-void takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, int max, int row, int col, int nb_player, int nb_card){
+int takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, int max, int row, int col, int nb_player, int nb_card){
     int discard_possibility=0;
     printf("\nIt's the turn of the player number %d, named %s", p->position, p->nickname);
     printf("\nYour board is the following one: ");
     printBoard(p, row, col, max);
-    printf("\nCards in discard piles are: ");
+    printf("\nCards in discard piles are: \n");
     for (int i=0; i<nb_player; i++){
         printf("\nPlayer number%d (%s): ", game[i]->position, game[i]->nickname);
         printTopDiscardPile(game[i]);
@@ -146,6 +146,7 @@ void takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, i
             discard_possibility=1;
         }
         Sleep(1500);
+        printf("\n");
     }
 
     char takeCard[8];
@@ -168,7 +169,7 @@ void takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, i
     }
 
     if (strcmp(takeCard, "draw") == 0){
-        printf("\nChose the card you want to replace: \n\nExemple for 2 row and 3 column:\n3 --> third card from the first line\n5 --> second card from the second line\n ");
+        printf("\nChose the card you want to replace: ");
         do {
             scanf("%d", &index);
             if (index<=0||index>nb_card){
@@ -184,20 +185,23 @@ void takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, i
     else {
         int choix;
         do {
-            printf("Select the number of the player ");
+            printf("\nSelect the number of the player ");
             scanf("%d", &choix);
             if (choix<=0||choix>nb_player){
-                printf("\n- Error - Wrong number - Try again ");
+                printf("\n- Error - Player not existing - Try again ");
             }
-        }while(choix<=0||choix>nb_player);
+            if (game[choix-1]->discard_pile==0){
+                printf("\nThis player has no discard pile ");
+            }
+        }while(choix<=0||choix>nb_player||game[choix-1]->discard_pile==0);
         Card cardStolen=takeDiscardPile(game[choix-1]);
-        printf("\nThe card taken is");
+        printf("\nThe card taken is");  
         printCard(cardStolen, max);
-        printf("\nChose the card you want to replace: \n\nExemple for 2 row and 3 column:\n3 --> third card from the first line\n5 --> second card from the second line\n ");
+        printf("\nChose the card you want to replace: ");
         do {
             scanf("%d", &index);
-            if (strcmp(p->card[index--].exist, "destroyed")==0){
-                printf("\n- Error - card already destroyed");
+            if (strcmp(p->card[index-1].exist, "destroyed")==0){
+                printf("\n- Error - card already destroyed ");
             }
             if (index<=0||index>nb_card){
                 printf("\n- Error - Wrong number - Try again ");
@@ -205,7 +209,7 @@ void takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, i
             if (index==temp){
                 printf("\n- Error - Number already chosen ");
             }
-        }while (index<=0||index>nb_card||index==temp, strcmp(p->card[index--].exist, "destroyed")==0);
+        }while (index<=0||index>nb_card||index==temp||strcmp(p->card[index-1].exist, "destroyed")==0);
         index--;
         replaceCard(p, cardStolen, index);
         
@@ -217,10 +221,10 @@ void takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, i
     printPlayer(p, 0);
 
     if (checkEnd(p)==1){
-        // endgame();
-        printf("End of the game");
+        return 0;
     }
     else {
         printf("\nYou still have at least one card to reveal, the game continues");
+        return 1;
     }
 }
