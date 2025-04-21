@@ -25,8 +25,8 @@ int findHighestCard(Card* pile, int *size_main_pile){
 
 int sizeNumber(int number){
     int taille=1;
-    if (number%10==0){
-        taille++;
+    if (number==0){
+        return 1;
     }
     if (number<0){
         taille++;

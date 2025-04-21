@@ -1,4 +1,5 @@
 typedef struct {
+    char* exist;
     int value;
     int visibility;
 } Card;
@@ -42,3 +43,9 @@ int findHighestCard(Card* pile, int* size_main_pile);
 void replaceCard(Player* p, Card replacingCard, int index);
 
 Card takeDiscardPile(Player* p);
+
+int checkEnd(Player* p);
+
+void checkCol(Player* p, int row, int col);
+
+void destroyCol(Player* p, int row, int col, int index);
