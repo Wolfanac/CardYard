@@ -28,9 +28,6 @@ int sizeNumber(int number){
     if (number==0){
         return 1;
     }
-    if (number%10==0){
-        taille++;
-    }
     if (number<0){
         taille++;
     }

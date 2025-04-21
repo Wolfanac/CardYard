@@ -98,12 +98,20 @@ void printBoard(Player* p, int row, int col, int max) {
     printf("\n\n");
     int height = 15;
     int width = 15;
-
     for (int r = 0; r < row; r++) {               
         for (int i = 0; i < height; i++) {        
             for (int c = 0; c < col; c++) {       
-                // if (strcmp(p->card[r*col+c].exist, "destoyed")==0){continue;}
                 Card card = p->card[r * col + c]; 
+                char* print1;
+                char* print2;
+                if (strcmp(card.exist, "destroyed")==0){
+                    print1=" ";
+                    print2=" ";
+                }
+                else {
+                    print1="-";
+                    print2="|";
+                }
                 char* color;
                 int size;
                 char unknown[4]="???";
@@ -123,14 +131,17 @@ void printBoard(Player* p, int row, int col, int max) {
                 printf("%s", color);
                 for (int j = 0; j < width; j++) { 
                     if (i == 0 || i == height - 1) {
-                        printf("-");
+                        printf("%s", print1);
                     }
                     else if (j == 0 || j == width - 1) {
-                        printf("|");
+                        printf("%s", print2);
                     }
                     else if (i == (height / 2) && j == (width / 2) - (size/2)) {
                         printf("\033[0m");
-                        if (card.visibility == 1) {
+                        if (strcmp(card.exist, "destroyed")==0){
+                            printf(" ");
+                        }
+                        else if (card.visibility == 1) {
                             printf("%d", card.value);
                             j += size-1 ;
                         } else {
@@ -160,10 +171,10 @@ char* colorChoice(Card card, int max){
         return "\033[36m"; // Cyan
     }
     else if (card.value <= max / 3){
-        return "\033[33m"; // Yelllow
+        return "\033[32m"; // green
     }
     else if (card.value <= (2 * max) / 3){
-        return "\033[32m"; // green
+        return "\033[33m"; // yellow
     }
     else {
         return "\033[31m"; // red

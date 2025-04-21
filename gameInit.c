@@ -150,8 +150,11 @@ void takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, i
 
     char takeCard[8];
     int index, temp=-1;
+    Card cardDrawn=DrawCard(main_pile, size_main_pile);
+    printf("\nThe card drawn is :");
+    printCard(cardDrawn, max);
     if (discard_possibility==1){
-        printf("\nWould you like to draw a card from the main deck or from a discard pile ? Enter 'draw' or 'discard' ");
+        printf("\nWould you like to play the drawn card from the main deck or take a card from a discard pile ? Enter 'draw' or 'discard' ");
         do {
             scanf("%s", takeCard);
             if (strcmp(takeCard, "draw") != 0 && strcmp(takeCard, "discard") != 0) {
@@ -160,14 +163,11 @@ void takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, i
         } while (strcmp(takeCard, "draw") != 0 && strcmp(takeCard, "discard") != 0);
     }
     else{
-        printf("\nAs no one has any card in their discard pile, you can only draw");
+        printf("\nAs no one has any card in their discard pile, you can only play the card drawn");
         strcpy(takeCard, "draw");
     }
 
     if (strcmp(takeCard, "draw") == 0){
-        Card cardDrawn=DrawCard(main_pile, size_main_pile);
-        printf("\nThe card drawn is :");
-        printCard(cardDrawn, max);
         printf("\nChose the card you want to replace: \n\nExemple for 2 row and 3 column:\n3 --> third card from the first line\n5 --> second card from the second line\n ");
         do {
             scanf("%d", &index);
@@ -196,13 +196,16 @@ void takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, i
         printf("\nChose the card you want to replace: \n\nExemple for 2 row and 3 column:\n3 --> third card from the first line\n5 --> second card from the second line\n ");
         do {
             scanf("%d", &index);
+            if (strcmp(p->card[index--].exist, "destroyed")==0){
+                printf("\n- Error - card already destroyed");
+            }
             if (index<=0||index>nb_card){
                 printf("\n- Error - Wrong number - Try again ");
             }
             if (index==temp){
                 printf("\n- Error - Number already chosen ");
             }
-        }while (index<=0||index>nb_card||index==temp);
+        }while (index<=0||index>nb_card||index==temp, strcmp(p->card[index--].exist, "destroyed")==0);
         index--;
         replaceCard(p, cardStolen, index);
         

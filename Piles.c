@@ -34,15 +34,25 @@ void addDiscardPile(Player* p, Card addCard) {
 }
 
 Card takeDiscardPile(Player* p){
-    Card cardTaken=p->discard_pile[p->discard_size-1];
-    Card* temp = realloc(p->discard_pile, (p->discard_size -1) * sizeof(Card));
-    if (temp == NULL) {
-        printf("\n- Error allocating new discard pile");
+    if (p->discard_size == 0) {
+        printf("\nErreur : la pile de défausse est vide !\n");
         exit(1);
     }
 
-    p->discard_pile = temp;
     p->discard_size--;
+    Card cardTaken = p->discard_pile[p->discard_size];
+
+    if (p->discard_size == 0) { //if size==0 it could provoke an error (which was the case for me) so we discard (free) the previous discard pile to create a new one
+        free(p->discard_pile);
+        p->discard_pile = NULL;
+    } else {
+        Card* temp = realloc(p->discard_pile, p->discard_size * sizeof(Card));
+        if (temp == NULL) {
+            printf("\n- Error allocating new discard pile");
+            exit(1);
+        }
+        p->discard_pile = temp;
+    }
 
     return cardTaken;
 }

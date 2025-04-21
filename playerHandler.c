@@ -30,6 +30,7 @@ Player* create_player(int card_user, int pos, int redoing) {
     for (int i=0; i<card_user; i++){
         j1->card[i].value=0;
         j1->card[i].visibility=0;
+        j1->card[i].exist="exist";
     }
 
     j1->nickname=AskNickname();
@@ -177,10 +178,10 @@ void checkCol(Player* p, int row, int col){
         colToDestroy=0;
         cardValue=p->card[i].value;
         for (int r=0; r<row; r++){
-            if (p->card[i+i*col].visibility==1 && p->card[i+i*col].value==cardValue){
+            if (p->card[i+r*col].visibility==1 && p->card[i+r*col].value==cardValue){
                 colToDestroy++;
             }
-            if (r==row && colToDestroy==row){
+            if (r==row-1 && colToDestroy==row){
                 printf("\nYou have a column of same cards, it will be removed");
                 destroyCol(p, row, col, i);
             }
@@ -207,7 +208,7 @@ void destroyCol(Player* p, int row, int col, int index){
         for (int j=0; j<row; j++){
             if (i==tabIndice[j]){
                 p->card[i].value=0;
-                p->card[i].exist="Destroyed";
+                p->card[i].exist="destroyed";
             }
         }
     }
