@@ -27,7 +27,7 @@ void LoadDiscardPile(Player* p, int nb_players) {
             // Convert each character (digit) to an int and store it in the player's discard pile while skipping every blank spaces
             for (int i = 0; i < len; i++) {
                 if (ptr[i] >= '0' && ptr[i] <= '9' && ptr[i]!=(' ')) {
-                    p[player_index].discard_pile[i].value = ptr[i] - '0';  // Convert char to int
+                    p[player_index].discard_pile[i].value = ptr[i] - '0';  
                     p[player_index].discard_pile[i].visibility = 0;       // Default visibility
                 }
                 else{
