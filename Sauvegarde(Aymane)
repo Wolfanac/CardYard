@@ -22,15 +22,4 @@ void demandeur_sauvegarde(){
 	printf("Début du processus de sauvegarde");
 	}
 	}
-	void principale_deck_save(){
-	int *pioche_principale=calloc(n,sizeof(int))
-	int i=0;
-	récupérateur_piocheprincipale=0;
-	while(fscanf(fichier,"%d",&a)==1){
-		pioche_principale[i]=récupérateur_piocheprincipale;
-		i++;
-		fprintf(zone_enregistrement,"%d",pioche_principale[i]);
-	}
-	}
-
-    fclose(file);
+	
