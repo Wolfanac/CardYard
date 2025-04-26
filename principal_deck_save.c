@@ -13,10 +13,11 @@ void principale_deck_save(FILE *fichier, int number_of_cards) {
         fclose(register_zone);
         return;
     }
-
+    int a;
     int i = 0;
     rewind(fichier);
     while (fscanf(fichier, "%d", &a) == 1 && i < number_of_cards) {
+        principal_deck[i] = a;
         fprintf(register_zone, "%d\n", principal_deck[i]);
         i++;
     }
