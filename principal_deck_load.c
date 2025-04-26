@@ -1,24 +1,28 @@
+#include "include.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-
-int* principale_deck_load(FILE *input_file, int n) {
-    if (input_file == NULL) {
-        printf("Error: input file is NULL\n");
+int* principale_deck_load(int number_of_cards) {
+    FILE* f = fopen("MainDeckSave.txt", "r");  
+    if (f == NULL) {
+        printf("Error opening MainDeckSave.txt\n");
         return NULL;
     }
 
-    int *pioche_principale = calloc(n, sizeof(int));
-    if (pioche_principale == NULL) {
-        printf("Memory allocation issue\n");
+    int* principal_deck = calloc(number_of_cards, sizeof(int));
+    if (principal_deck == NULL) {
+        printf("Memory allocation error\n");
+        fclose(f);
         return NULL;
     }
 
     int i = 0;
-    rewind(input_file);
-    while (fscanf(input_file, "%d", &pioche_principale[i]) == 1 && i < n) {
+    while (i < number_of_cards && fscanf(f, "%d", &principal_deck[i]) == 1) {
         i++;
     }
 
-    return pioche_principale;
+    if (i != number_of_cards) {
+        printf("Warning: Only %d cards loaded out of %d expected.\n", i, number_of_cards);
+    }
+
+    fclose(f);
+    return principal_deck;
 }
