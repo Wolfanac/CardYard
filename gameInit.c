@@ -12,7 +12,7 @@ Player** InitGame(FILE* file, int* nb_player, int *nb_card_user){
         if (*nb_card_user<0){
             printf("It may be difficult to play with a negative number of cards, choose another number ");
         }
-        else if (IsPrimeNumber(*nb_card_user) && *nb_card_user<6){
+        else if (IsPrimeNumber(*nb_card_user)){
             printf("You must chose a number which isn't a prime one ");
         } 
         else if (*nb_card_user<6 || *nb_card_user>30){
