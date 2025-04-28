@@ -1,4 +1,5 @@
 #include "include.h"
+#include "player.h"
 
 void SaveDiscardPile(Player* p,int nb_players){
     FILE* f;

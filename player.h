@@ -51,3 +51,7 @@ void checkCol(Player* p, int row, int col);
 void destroyCol(Player* p, int row, int col, int index);
 
 void endgame(Player** game, int nb_player, int row, int col, int max);
+
+void SaveDiscardPile(Player* p,int nb_players);
+
+void LoadDiscardPile(Player* p, int nb_players);

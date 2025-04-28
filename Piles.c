@@ -35,7 +35,7 @@ void addDiscardPile(Player* p, Card addCard) {
 
 Card takeDiscardPile(Player* p){
     if (p->discard_size == 0) {
-        printf("\nErreur : la pile de défausse est vide !\n");
+        printf("\n- Error discard pile empty!\n");
         exit(1);
     }
 
