@@ -1,5 +1,6 @@
 #include "include.h"
 
+
 FILE* cards_atribution(){
     //create a file to store, create, and position randomely the cards in it
     FILE* usedcards = NULL;
@@ -32,14 +33,8 @@ FILE* cards_atribution(){
 }
 
 
- int change_cards(){ 
-     FILE* usedcards = NULL;
-     usedcards = fopen("cards.txt", "r");
-     //check if the file have been open
-     if (usedcards == NULL) {
-         printf("\n ouverture impossible");
-         exit(1);
-     }
+ int change_cards(FILE* usedcards){ 
+
      rewind(usedcards);
 
      //make the player change the values in the pile of cards
@@ -61,7 +56,6 @@ FILE* cards_atribution(){
              scanf("%d", &originalnumber);
              printf("\n to what number ?");
              scanf("%d", &changenumber);
-             freopen("cards.txt", "r", usedcards);
 
              //put all values in a list
              while (fscanf(usedcards, "%d", &a)==1){
@@ -79,10 +73,11 @@ FILE* cards_atribution(){
              }
              if (number==0){
                  printf("no %d number found", originalnumber);
+             }else{
+                 printf("done");
              }
              rewind(usedcards);
              v=0;
-             freopen("cards.txt", "w", usedcards);
 
              //print the list in the file
              while (v<i){
@@ -91,7 +86,6 @@ FILE* cards_atribution(){
                  v++;
              }
 
-             printf("done");
 
              //ask to continue
              printf("\ndo you wish to change some cards ? ");
@@ -107,7 +101,7 @@ FILE* cards_atribution(){
 
      }
 
-
-     fclose(usedcards);
-     return 0;
+     
+     return usedcards;
+     
  }
