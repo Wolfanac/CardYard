@@ -32,11 +32,14 @@ int main(){
     
     initiatePlayerboard(game, nb_player, nb_card_user, &pile, &size_main_pile);
     
-    int index=0;
+    int index=0, turn_number=0;
+    turn_number=numberofturn(turn_number);
     while (takeTurn(game, game[index], &pile, &size_main_pile, highest_card, row, col, nb_player, nb_card_user)){
         index++;
         if (index==nb_player){
+            turn_number=numberofturn(turn_number);
             index-=nb_player;
+            
         }
     }
     endgame(game, nb_player, row, col, highest_card);
