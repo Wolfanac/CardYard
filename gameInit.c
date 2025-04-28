@@ -228,3 +228,17 @@ int takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, in
         return 1;
     }
 }
+
+int numberofturn(int turn_number){
+    turn_number++;
+    if (turn_number==1){
+        printf("you are on the %d rst turn", turn_number);
+    }else if (turn_number==2){
+        printf("you are on the %d sd turn", turn_number);
+    }else if (turn_number==3){
+        printf("you are on the %d rd turn", turn_number);
+    }else{
+        printf("you are on the %d st turn", turn_number);
+    }
+    return turn_number;
+}
