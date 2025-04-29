@@ -61,6 +61,7 @@
     "string.h": "c",
     "include.h": "c",
     "player.h": "c",
-    "limits": "c"
+    "limits": "c",
+    "conio.h": "c"
   }
 }

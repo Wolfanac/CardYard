@@ -49,21 +49,13 @@ Player* create_player(int card_user, int pos, int redoing) {
 
 // Recursive fonction that allows the user to confirm, redo or destroy the player
 int CheckPlayer(Player *p, int a) {
-    char confirm[10];
     char changing[10];
 
     if (a == 0) {
-        printf("\nI will print what you've written. Confirm by saying 'yes' or 'no': ");
+        printf("\nI will print what you've written. Confirm afterward by typing 'yes' or 'no' ");
         Sleep(2500);
         printPlayer(p, 1);
-        printf("Answer: ");
-
-        do {
-            scanf("%s", confirm);
-            if (strcmp(confirm, "yes") != 0 && strcmp(confirm, "no") != 0) {
-                printf("Invalid input. Please type 'yes' or 'no'.\n");
-            }
-        } while (strcmp(confirm, "yes") != 0 && strcmp(confirm, "no") != 0);
+        char* confirm=YesNoFonction();
 
         if (strcmp(confirm, "yes") == 0) {
             return 1;
@@ -86,26 +78,17 @@ int CheckPlayer(Player *p, int a) {
         Sleep(1500);
         printPlayer(p, 1);
         printf("\nDoes it correspond to what you wanted? (yes/no): ");
-        do {
-            scanf("%s", confirm);
-            if (strcmp(confirm, "yes") != 0 && strcmp(confirm, "no") != 0) {
-                printf("Invalid input. Please type 'yes' or 'no'.\n");
-            }
-        } while (strcmp(confirm, "yes") != 0 && strcmp(confirm, "no") != 0);
+        char* confirm=YesNoFonction();
 
         if (strcmp(confirm, "yes") == 0) {
             return 1;
         } else {
             return CheckPlayer(p, 1);
         }
+        free(confirm);
     } else {
         printf("Are you sure you want to delete it? (yes/no): ");
-        do {
-            scanf("%s", confirm);
-            if (strcmp(confirm, "yes") != 0 && strcmp(confirm, "no") != 0) {
-                printf("Invalid input. Please type 'yes' or 'no'.\n");
-            }
-        } while (strcmp(confirm, "yes") != 0 && strcmp(confirm, "no") != 0);
+        char* confirm=YesNoFonction();
 
         if (strcmp(confirm, "yes") == 0) {
             printf("Player will be erased.\n");
@@ -178,7 +161,7 @@ void checkCol(Player* p, int row, int col){
         colToDestroy=0;
         cardValue=p->card[i].value;
         for (int r=0; r<row; r++){
-            if (p->card[i+r*col].visibility==1 && p->card[i+r*col].value==cardValue){
+            if (strcmp(p->card[i + r * col].exist, "destroyed")==0 && p->card[i+r*col].visibility==1 && p->card[i+r*col].value==cardValue){
                 colToDestroy++;
             }
             if (r==row-1 && colToDestroy==row){
@@ -208,7 +191,7 @@ void destroyCol(Player* p, int row, int col, int index){
         for (int j=0; j<row; j++){
             if (i==tabIndice[j]){
                 p->card[i].value=0;
-                p->card[i].visibility=0;
+                p->card[i].visibility=1;
                 p->card[i].exist="destroyed";
             }
         }
