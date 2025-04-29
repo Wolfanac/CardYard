@@ -55,3 +55,7 @@ void endgame(Player** game, int nb_player, int row, int col, int max);
 void SaveDiscardPile(Player* p,int nb_players);
 
 void LoadDiscardPile(Player* p, int nb_players);
+
+int* principale_deck_load(int number_of_cards);
+
+void principale_deck_save(FILE *fichier, int number_of_cards);
