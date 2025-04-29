@@ -227,5 +227,4 @@ int takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, in
         printf("\nYou still have at least one card to reveal, the game continues");
         return 1;
     }
-    // pressToContinue();
 }
