@@ -1,5 +1,7 @@
 #include "include.h"
 
+FILE* change_cards(FILE* usedcards);
+
 
 FILE* cards_atribution(){
     //create a file to store, create, and position randomely the cards in it
@@ -40,7 +42,7 @@ FILE* cards_atribution(){
      //make the player change the values in the pile of cards
      int a=0;
      char  value[10];
-     int i=0, number=0, v=0, fileupdate[140], originalnumber;
+     int i=0, number=0, v=0, fileupdate[140], originalnumber, testvalue=0;
      printf("\n do you wish to change some cards ? ");
      scanf("%s", value);
 
@@ -50,23 +52,30 @@ FILE* cards_atribution(){
 
              i = 0;
              v = 0;
+             testvalue=0;
              number = 0;
+             originalnumber = 0; 
 
-             printf("\n what numbers do you wish to change ?");
+             printf("\n what numbers do you wish to change ? ");
              scanf("%d", &originalnumber);
-             printf("\n to what number ?");
              int changenumber=originalnumber;
+             printf("\n to what number ? ");
              scanf("%d", &changenumber);
              if (changenumber==originalnumber){
-                 printf("please enter a number different from the original number, or a proper number");
+                 printf("\n please enter a number different from the original number, or a proper number ");
+                 // clear input buffer
+                 while (getchar() != '\n');
              }
              else{
+                  printf("\n you change the number %d to %d ", originalnumber, changenumber);
+                
                  //put all values in a list
+                 rewind(usedcards);
                  while (fscanf(usedcards, "%d", &a)==1){
                      fileupdate[i]=a;
                      i++;
                  }
-
+                
                  //change the values in the list
                  while (v<i){
                      if (fileupdate[v]==originalnumber){
@@ -75,10 +84,12 @@ FILE* cards_atribution(){
                      }
                      v++;
                  }
+
+                 
                  if (number==0){
-                     printf("no %d number found", originalnumber);
+                     printf("\n no %d number found ", originalnumber);
                  }else{
-                     printf("done");
+                     printf("\n done ");
                  }
                  rewind(usedcards);
                  v=0;
@@ -89,18 +100,21 @@ FILE* cards_atribution(){
                      fputs(" ", usedcards);
                      v++;
                  }
-
+                 // clear input buffer
+                 while (getchar() != '\n');
 
                  //ask to continue
-                 printf("\ndo you wish to change some cards ? ");
+                 printf("\n do you wish to change some cards ? ");
                  scanf("%s", value);
+                 
+                 
 
              }
          }
 
          //mistypes
          if (strcmp(value, "no") != 0 && strcmp(value, "yes") != 0) {
-             printf("\nPlease enter either 'yes' or 'no': ");
+             printf("\n Please enter either 'yes' or 'no': ");
              scanf("%s", value);
          }
 
