@@ -33,14 +33,14 @@ FILE* cards_atribution(){
 }
 
 
- int change_cards(FILE* usedcards){ 
+ FILE* change_cards(FILE* usedcards){ 
 
      rewind(usedcards);
 
      //make the player change the values in the pile of cards
      int a=0;
      char  value[10];
-     int i=0, number=0, v=0, fileupdate[140], changenumber, originalnumber;
+     int i=0, number=0, v=0, fileupdate[140], originalnumber;
      printf("\n do you wish to change some cards ? ");
      scanf("%s", value);
 
@@ -55,42 +55,47 @@ FILE* cards_atribution(){
              printf("\n what numbers do you wish to change ?");
              scanf("%d", &originalnumber);
              printf("\n to what number ?");
+             int changenumber=originalnumber;
              scanf("%d", &changenumber);
-
-             //put all values in a list
-             while (fscanf(usedcards, "%d", &a)==1){
-                 fileupdate[i]=a;
-                 i++;
+             if (changenumber==originalnumber){
+                 printf("please enter a number different from the original number, or a proper number");
              }
-
-             //change the values in the list
-             while (v<i){
-                 if (fileupdate[v]==originalnumber){
-                     fileupdate[v]=changenumber;
-                     number++;
+             else{
+                 //put all values in a list
+                 while (fscanf(usedcards, "%d", &a)==1){
+                     fileupdate[i]=a;
+                     i++;
                  }
-                 v++;
+
+                 //change the values in the list
+                 while (v<i){
+                     if (fileupdate[v]==originalnumber){
+                         fileupdate[v]=changenumber;
+                         number++;
+                     }
+                     v++;
+                 }
+                 if (number==0){
+                     printf("no %d number found", originalnumber);
+                 }else{
+                     printf("done");
+                 }
+                 rewind(usedcards);
+                 v=0;
+
+                 //print the list in the file
+                 while (v<i){
+                     fprintf(usedcards, "%d", fileupdate[v]);
+                     fputs(" ", usedcards);
+                     v++;
+                 }
+
+
+                 //ask to continue
+                 printf("\ndo you wish to change some cards ? ");
+                 scanf("%s", value);
+
              }
-             if (number==0){
-                 printf("no %d number found", originalnumber);
-             }else{
-                 printf("done");
-             }
-             rewind(usedcards);
-             v=0;
-
-             //print the list in the file
-             while (v<i){
-                 fprintf(usedcards, "%d", fileupdate[v]);
-                 fputs(" ", usedcards);
-                 v++;
-             }
-
-
-             //ask to continue
-             printf("\ndo you wish to change some cards ? ");
-             scanf("%s", value);
-
          }
 
          //mistypes
