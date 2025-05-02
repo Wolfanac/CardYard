@@ -162,21 +162,6 @@ void printBoard(Player* p, int row, int col, int max) {
 }
 
 
-
-char* colorChoice(Card card, int max){
-    if (card.value < 0){
-        return "\033[34m"; // blue
-    }
-    else if (card.value == 0){
-        return "\033[36m"; // Cyan
-    }
-    else if (card.value <= max / 3){
-        return "\033[32m"; // green
-    }
-    else if (card.value <= (2 * max) / 3){
-        return "\033[33m"; // yellow
-    }
-    else {
-        return "\033[31m"; // red
-    }
+void numberTurn(int turn_number){
+    printf("This is the turn number %d", turn_number);
 }

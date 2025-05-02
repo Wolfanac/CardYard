@@ -105,23 +105,17 @@ int CheckPlayer(Player *p, int a) {
 char* AskNickname(){
     char* name = NULL;
     char* temp = NULL;
-    int nb_char;
     int ch;
-    
+    int nb_char;
+    size_t len;
+    int see;
     do {
         printf("\nHow many characters in your nickname? ");
-        scanf("%d", &nb_char);
-        if (nb_char > 100) {
-            printf("\n- Error - Too many characters - ending the program");
-            exit(1);
-        }
-    
-        while ((ch = getchar()) != '\n' && ch != EOF);
-    
-        name = realloc(name, (nb_char + 1) * sizeof(char));
-        if (name == NULL) {
-            printf("\n- Error allocating nickname");
-            exit(1);
+        see=scanf("%d", &nb_char);
+        empty_buffer();
+        if (see!=1){
+            printf("You need to enter a number. Type again: ");
+            continue;
         }
     
         temp = realloc(temp, (nb_char + 2) * sizeof(char)); 
@@ -130,10 +124,10 @@ char* AskNickname(){
             exit(1);
         }
     
-        printf("\nWrite the name of your player: ");
+        printf("\nWrite the name of your player. It can have numbers and spaces if wanted: ");
         fgets(temp, nb_char + 2, stdin); 
     
-        size_t len = strlen(temp);
+        len = strlen(temp);
         if (temp[len - 1] != '\n') {
             while ((ch = getchar()) != '\n' && ch != EOF);
         } else {
@@ -142,12 +136,17 @@ char* AskNickname(){
         }
         
     
-        if ((int)len != nb_char) {
+        if (len != nb_char) {
             printf("\nYou didn't enter exactly %d characters. Enter the number of characters you want once again.", nb_char);
         }
     
-    } while (strlen(temp) != nb_char);
+    } while (len != nb_char||see!=1);
     
+    name = realloc(name, (nb_char + 1) * sizeof(char));
+    if (name == NULL) {
+        printf("\n- Error allocating nickname");
+        exit(1);
+    }
     strcpy(name, temp);
     free(temp);
 

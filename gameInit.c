@@ -7,8 +7,14 @@
 Player** InitGame(FILE* file, int* nb_player, int *nb_card_user){  
 
     printf("\nHow many cards will you start with ? ");
+    int see=0;
     do{
-        scanf("%d", nb_card_user);
+        see=scanf("%d", nb_card_user);
+        empty_buffer();
+        if (see!=1){
+            printf("You need to enter a number. Type again: ");
+            continue;
+        }
         if (*nb_card_user<0){
             printf("It may be difficult to play with a negative number of cards, choose another number ");
         }
@@ -18,16 +24,21 @@ Player** InitGame(FILE* file, int* nb_player, int *nb_card_user){
         else if (*nb_card_user<6 || *nb_card_user>30){
             printf("We think that with this number of cards, the game won't be enjoyable, so you need to choose a new value ");
         }
-    }while (*nb_card_user<0 || *nb_card_user<6 || *nb_card_user>30 || IsPrimeNumber(*nb_card_user));
+    }while (*nb_card_user<0 || *nb_card_user<6 || *nb_card_user>30 || IsPrimeNumber(*nb_card_user)||see!=1);
 
 
     printf("\nHow many players ? ");
     do {
-        scanf("%d", nb_player);
+        see=scanf("%d", nb_player);
+        empty_buffer();
+        if (see!=1){
+            printf("You need to enter a number. Type again: ");
+            continue;
+        }
         if (*nb_player<1||*nb_player>8){
             printf("You must choose a number between 2 and 8 (both included) ");
         }
-    } while (*nb_player<1||*nb_player>8);
+    } while (*nb_player<1||*nb_player>8||see!=1);
 
     Player** game = malloc(*(nb_player) * sizeof(Player*));
     if (game==NULL){
@@ -67,28 +78,40 @@ Player** InitGame(FILE* file, int* nb_player, int *nb_card_user){
 
 //creates the number of row and columns
 void choseRowCol(int* row, int* col, int nb_card_user){
+    int see=0;
     do{
         printf("\nHow many rows do you want ? ");
         do{
-            scanf("%d", row);
+            see=scanf("%d", row);
+            empty_buffer();
+            if (see!=1){
+                printf("You need to enter a number. Type again: ");
+                continue;
+            }
+        
             if (*row<1){
                 printf("You must chose a number greater than that ");
             }
             if (*row==1){
                 printf("One row isn't enough as it would mean completing a column each time you reveal a card");
             }
-        }while (*row<=1);
+        }while (*row<=1||see!=1);
 
         printf("How many columns do you want ? ");
         do{
-            scanf("%d", col);
+            see=scanf("%d", col);
+            empty_buffer();
+            if (see!=1){
+                printf("You need to enter a number. Type again: ");
+                continue;
+            }
             if (*col<1){
                 printf("You must chose a number greater than that ");
             }
             if (*col==1){
                 printf("One column isn't enough as it would mean having a score of 0 when being the one finishing the game");
             }
-        }while (*col<=1);
+        }while (*col<=1||see!=1);
 
         if ((*row)*(*col)!=nb_card_user){
             printf("Chose different values for the row and for the column because it doesn't correspond with the number of cards you chose before ");
@@ -116,17 +139,23 @@ void initiatePlayerboard(Player** game, int nb_player, int nb_card, Card** pile,
         printf("\nYou will be able to reveal two cards from the board\n\nExemple for 2 row and 3 column:\n3 --> third card from the first line\n5 --> second card from the second line\n ");
         Sleep(2000);
         temp=-1;
+        int see=0;
         for (int j=0; j<2; j++){
             do {
                 printf("\nChose a card to reveal ");
-                scanf("%d", &index);
+                see=scanf("%d", &index);
+                empty_buffer();
+                if (see!=1){
+                    printf("You need to enter a number. Type again: ");
+                    continue;
+                }
                 if (index<=0||index>nb_card){
                     printf("- Error - Wrong number - Try again ");
                 }
                 if (index==temp){
                     printf("- Error - Number already chosen ");
                 }
-            }while (index<=0||index>nb_card||index==temp);
+            }while (index<=0||index>nb_card||index==temp||see!=1);
             game[i]->card[index-1].visibility=1;
             temp=index;
         }
@@ -158,6 +187,7 @@ int takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, in
         printf("\nWould you like to play the drawn card from the main deck or take a card from a discard pile ? Enter 'draw' or 'discard' ");
         do {
             scanf("%s", takeCard);
+            empty_buffer();
             if (strcmp(takeCard, "draw") != 0 && strcmp(takeCard, "discard") != 0) {
                 printf("\nInvalid input. Please type 'draw' or 'discard'.\n");
             }
@@ -170,36 +200,53 @@ int takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, in
 
     if (strcmp(takeCard, "draw") == 0){
         printf("\nChose the card you want to replace: ");
+        int see=0;
         do {
-            scanf("%d", &index);
+            see=scanf("%d", &index);
+            empty_buffer();
+            if (see!=1){
+                printf("You need to enter a number. Type again: ");
+                continue;
+            }
             if (index<=0||index>nb_card){
                 printf("\n- Error - Wrong number - Try again ");
             }
             if (index==temp){
                 printf("\n- Error - Number already chosen ");
             }
-        }while (index<=0||index>nb_card||index==temp);
+        }while (index<=0||index>nb_card||index==temp||see!=1);
         index--;
         replaceCard(p, cardDrawn, index);
     }
     else {
         int choix;
+        int see=0;
         do {
             printf("\nSelect the number of the player ");
-            scanf("%d", &choix);
+            see=scanf("%d", &choix);
+            empty_buffer();
+            if (see!=1){
+                printf("You need to enter a number. Type again: ");
+                continue;
+            }
             if (choix<=0||choix>nb_player){
                 printf("\n- Error - Player not existing - Try again ");
             }
             if (game[choix-1]->discard_pile==0){
                 printf("\nThis player has no discard pile ");
             }
-        }while(choix<=0||choix>nb_player||game[choix-1]->discard_pile==0);
+        }while(choix<=0||choix>nb_player||game[choix-1]->discard_pile==0||see!=1);
         Card cardStolen=takeDiscardPile(game[choix-1]);
         printf("\nThe card taken is");  
         printCard(cardStolen, max);
         printf("\nChose the card you want to replace: ");
         do {
-            scanf("%d", &index);
+            see=scanf("%d", &index);
+            empty_buffer();
+            if (see!=1){
+                printf("You need to enter a number. Type again: ");
+                continue;
+            }
             if (strcmp(p->card[index-1].exist, "destroyed")==0){
                 printf("\n- Error - card already destroyed ");
             }
@@ -209,7 +256,7 @@ int takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, in
             if (index==temp){
                 printf("\n- Error - Number already chosen ");
             }
-        }while (index<=0||index>nb_card||index==temp||strcmp(p->card[index-1].exist, "destroyed")==0);
+        }while (index<=0||index>nb_card||index==temp||strcmp(p->card[index-1].exist, "destroyed")==0||see!=1);
         index--;
         replaceCard(p, cardStolen, index);
         

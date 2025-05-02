@@ -32,8 +32,7 @@ FILE* cards_atribution(){
     return usedcards;
 }
 
-
- int change_cards(FILE* usedcards){ 
+ FILE* change_cards(FILE* usedcards){ 
 
      rewind(usedcards);
 
@@ -43,7 +42,6 @@ FILE* cards_atribution(){
      int i=0, number=0, v=0, fileupdate[140], changenumber, originalnumber;
      printf("\n do you wish to change some cards ? ");
      scanf("%s", value);
-
      while (strcmp(value, "no") != 0){
 
          while (strcmp(value, "yes") == 0) {
@@ -95,13 +93,12 @@ FILE* cards_atribution(){
 
          //mistypes
          if (strcmp(value, "no") != 0 && strcmp(value, "yes") != 0) {
-             printf("\nPlease enter either 'yes' or 'no': ");
-             scanf("%s", value);
+            printf("\nPlease enter either 'yes' or 'no': ");
          }
 
      }
 
      
-     return usedcards;
+    return usedcards;
      
  }
