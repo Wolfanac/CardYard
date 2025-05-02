@@ -23,3 +23,5 @@ char* YesNoFonction();
 void empty_buffer();
 
 void numberTurn(int turn_number);
+
+void pressToContinue();

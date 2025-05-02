@@ -160,7 +160,7 @@ void checkCol(Player* p, int row, int col){
         colToDestroy=0;
         cardValue=p->card[i].value;
         for (int r=0; r<row; r++){
-            if (strcmp(p->card[i + r * col].exist, "destroyed")==0 && p->card[i+r*col].visibility==1 && p->card[i+r*col].value==cardValue){
+            if (strcmp(p->card[i + r * col].exist, "destroyed")!=0 && p->card[i+r*col].visibility==1 && p->card[i+r*col].value==cardValue){
                 colToDestroy++;
             }
             if (r==row-1 && colToDestroy==row){

@@ -66,13 +66,16 @@ char* YesNoFonction(){
 }
 
 void pressToContinue(){
-    printf("\nPress any key to continue: ");
-    
+    char* pass=malloc(sizeof(char));
+    printf("\nPress any key to continue: ");    
+    while (getchar()!='\n'){}
+    fgets(pass, 1, stdin); 
+    free(pass);
+
 }
 
 void empty_buffer(){
-    while (getchar()!='\n'){
-    }
+    while (getchar()!='\n'){}
 }
 
 char* colorChoice(Card card, int max){

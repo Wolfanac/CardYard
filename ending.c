@@ -20,7 +20,7 @@ void endgame(Player** game, int nb_player, int row, int col, int max){
             if (strcmp(game[i]->card[j].exist, "destroyed")!=0){
                 game[i]->card[j].visibility=1;
             }
-        }
+        }   
         printBoard(game[i], row, col, max);
         printf("\n\n");
     }
@@ -37,6 +37,6 @@ void endgame(Player** game, int nb_player, int row, int col, int max){
             minIndex=i;
         }
     }
-    printf("\nThe winner of the game is the player number %d, which means %s won!", minIndex+1, game[minIndex]->nickname);
+    printf("\nThe winner of the game is the player number %d, with %d points, which means %s won!", minIndex+1, min, game[minIndex]->nickname);
     free(result);
 }
