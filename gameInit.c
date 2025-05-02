@@ -123,21 +123,21 @@ void choseRowCol(int* row, int* col, int nb_card_user){
 }
 
 
-void initiatePlayerboard(Player** game, int nb_player, int nb_card, Card** pile, int* size_deck){
+void initiatePlayerboard(Player** game, int nb_player, int nb_card, Card** pile, int* size_deck, int row, int col, int highest_card){
     int temp;
     int index;
     srand(time(NULL));
     for (int i=0; i<nb_player; i++){
         printf("\nCreating the board for the player number %d...", game[i]->position);
         Sleep(1500);
-        printf("...");
-        Sleep(1500);
         for (int j=0; j<nb_card; j++){
             Card CardDrawn=DrawCard(pile, size_deck);
             game[i]->card[j].value=CardDrawn.value;
         }
+        printf("\nThis is your actual board: ");
+        printBoard(game[i], row, col, highest_card);
+        pressToContinue();
         printf("\nYou will be able to reveal two cards from the board\n\nExemple for 2 row and 3 column:\n3 --> third card from the first line\n5 --> second card from the second line\n ");
-        Sleep(2000);
         temp=-1;
         int see=0;
         for (int j=0; j<2; j++){
@@ -159,6 +159,9 @@ void initiatePlayerboard(Player** game, int nb_player, int nb_card, Card** pile,
             game[i]->card[index-1].visibility=1;
             temp=index;
         }
+        printf("\nThe board of the player number %d is now: ", i+1);
+        printBoard(game[i], row, col, highest_card);
+        pressToContinue();
     }
 }
 
@@ -177,7 +180,7 @@ int takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, in
         Sleep(1500);
         printf("\n");
     }
-
+    pressToContinue();
     char takeCard[8];
     int index, temp=-1;
     Card cardDrawn=DrawCard(main_pile, size_main_pile);
@@ -231,6 +234,7 @@ int takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, in
             }
             if (choix<=0||choix>nb_player){
                 printf("\n- Error - Player not existing - Try again ");
+                continue;
             }
             if (game[choix-1]->discard_pile==0){
                 printf("\nThis player has no discard pile ");
@@ -262,16 +266,16 @@ int takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, in
         
     }
     checkCol(p, row, col);
-    
-    printf("\nThe current state of you board is: ");
-    printBoard(p, row, col, max);
-    printPlayer(p, 0);
 
     if (checkEnd(p)==1){
         return 0;
     }
     else {
+        printf("\nThe current state of you board is: ");
+        printBoard(p, row, col, max);
+        printPlayer(p, 0);
         printf("\nYou still have at least one card to reveal, the game continues");
+        pressToContinue();
         return 1;
     }
 }
