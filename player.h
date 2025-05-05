@@ -59,3 +59,5 @@ void LoadDiscardPile(Player* p, int nb_players);
 int* principale_deck_load(int number_of_cards);
 
 void principale_deck_save(FILE *fichier, int number_of_cards);
+
+void saving_input_warden(FILE * f, int nb_cards, Player* p, int nb_players);
