@@ -34,7 +34,8 @@ int main(){
     
     int index=0, turn_number=0;
     turn_number=numberofturn(turn_number);
-    while (takeTurn(game, game[index], &pile, &size_main_pile, highest_card, row, col, nb_player, nb_card_user)){
+    while (takeTurn(game, game[index], &pile, &size_main_pile, highest_card, row, col, nb_player, nb_card_user,FILE *f,Player* p)){
+        saving_input_warden(f, pile.size_main_pile, &p,nb_player);
         index++;
         if (index==nb_player){
             turn_number=numberofturn(turn_number);
