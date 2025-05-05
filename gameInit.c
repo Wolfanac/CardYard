@@ -5,8 +5,14 @@
 //Fonction that initiates the game
 //Creating number of player, number of cards, and the board with all players that are going to be created
 Player** InitGame(FILE* file, int* nb_player, int *nb_card_user){  
+    printf("\nCardYard - Games Rules\nObjective\nEnd the game with the lowest total score. The game ends when a player reveal all of his cards. The player with the lowest score at that time wins.");
+    printf("\n\nCards and Setup\nUse a deck of cards numbered -2 to 12 (140 cards total)\nEach player gets x cards, where x is the number you will enter\nEvery player flips over 2 cards of their choice at the start\nThe rest of the cards form the draw pile, and each player starts the game with an empty discard pile");
+    printf("\n\nTurn\nOn your turn you draw the top card from the main pile and then have two choices:\n    Swap it with one card from your board, revealed or not, that you will discard\n    Take the top card of any player's discard Pile and same thing as above\nAll cards swaped go face up");
+    printf("\n\nWhen you have a column full of same cards, it will be destroyed");
+    printf("\n\nWhen a player has revealed every card, we still finish the turn. Then every card from each board is revealed and each player counts their score according to the values on the cards and the player with the lowest total wins");
 
-    printf("\nHow many cards will you start with ? ");
+    //Number of cards
+    printf("\n\nHow many cards will you start with ? ");
     int see=0;
     do{
         see=scanf("%d", nb_card_user);
@@ -26,7 +32,7 @@ Player** InitGame(FILE* file, int* nb_player, int *nb_card_user){
         }
     }while (*nb_card_user<0 || *nb_card_user<6 || *nb_card_user>30 || IsPrimeNumber(*nb_card_user)||see!=1);
 
-
+    //Number of players
     printf("\nHow many players ? ");
     do {
         see=scanf("%d", nb_player);
@@ -35,17 +41,19 @@ Player** InitGame(FILE* file, int* nb_player, int *nb_card_user){
             printf("You need to enter a number. Type again: ");
             continue;
         }
-        if (*nb_player<1||*nb_player>8){
+        if (*nb_player<2||*nb_player>8){
             printf("You must choose a number between 2 and 8 (both included) ");
         }
-    } while (*nb_player<1||*nb_player>8||see!=1);
+    } while (*nb_player<2||*nb_player>8||see!=1);
 
+    //Create the board
     Player** game = malloc(*(nb_player) * sizeof(Player*));
     if (game==NULL){
         printf("Error: Game could not be initialized.\n");
         exit(1);
     }
 
+    //Insert the player 
     int validPlayer = 0;
     int tempNumberPlayer=*nb_player;
     for (int i = 0; i < *nb_player; i++) {
@@ -58,7 +66,7 @@ Player** InitGame(FILE* file, int* nb_player, int *nb_card_user){
             printf("The player has been deleted with success\n");
             free(new_player);
             tempNumberPlayer--;
-            if (tempNumberPlayer<1){
+            if (tempNumberPlayer<2){
                 printf("\nNot enough players, end of program.\n");
     
                 for (int j = 0; j < validPlayer; j++) {
@@ -122,14 +130,12 @@ void choseRowCol(int* row, int* col, int nb_card_user){
     printf("\nThe board you have chosen is composed of %d rows and %d columns\n", *row, *col);
 }
 
-
+//Fonction that creates the board of the player and put it in the game
 void initiatePlayerboard(Player** game, int nb_player, int nb_card, Card** pile, int* size_deck, int row, int col, int highest_card){
     int temp;
     int index;
-    srand(time(NULL));
     for (int i=0; i<nb_player; i++){
         printf("\nCreating the board for the player number %d...", game[i]->position);
-        Sleep(1500);
         for (int j=0; j<nb_card; j++){
             Card CardDrawn=DrawCard(pile, size_deck);
             game[i]->card[j].value=CardDrawn.value;
@@ -137,7 +143,7 @@ void initiatePlayerboard(Player** game, int nb_player, int nb_card, Card** pile,
         printf("\nThis is your actual board: ");
         printBoard(game[i], row, col, highest_card);
         pressToContinue();
-        printf("\nYou will be able to reveal two cards from the board\n\nExemple for 2 row and 3 column:\n3 --> third card from the first line\n5 --> second card from the second line\n ");
+        printf("\nYou will be able to reveal two cards from the board\n ");
         temp=-1;
         int see=0;
         for (int j=0; j<2; j++){
@@ -165,12 +171,14 @@ void initiatePlayerboard(Player** game, int nb_player, int nb_card, Card** pile,
     }
 }
 
+//Fonction that makes the turn 
 int takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, int max, int row, int col, int nb_player, int nb_card){
     int discard_possibility=0;
     printf("\nIt's the turn of the player number %d, named %s", p->position, p->nickname);
     printf("\nYour board is the following one: ");
     printBoard(p, row, col, max);
     printf("\nCards in discard piles are: \n");
+    //print each player's top discard pile
     for (int i=0; i<nb_player; i++){
         printf("\nPlayer number%d (%s): ", game[i]->position, game[i]->nickname);
         printTopDiscardPile(game[i]);
@@ -219,7 +227,7 @@ int takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, in
             }
         }while (index<=0||index>nb_card||index==temp||see!=1);
         index--;
-        replaceCard(p, cardDrawn, index);
+        replaceCard(p, cardDrawn, index, max);
     }
     else {
         int choix;
@@ -262,11 +270,12 @@ int takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, in
             }
         }while (index<=0||index>nb_card||index==temp||strcmp(p->card[index-1].exist, "destroyed")==0||see!=1);
         index--;
-        replaceCard(p, cardStolen, index);
+        replaceCard(p, cardStolen, index, max);
         
     }
     checkCol(p, row, col);
 
+    //If end return 0 so the while from main ends, continue the game
     if (checkEnd(p)==1){
         return 0;
     }

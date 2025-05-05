@@ -1,6 +1,7 @@
 #include "include.h"
 #include "player.h"
 
+//Fonction that looks if every card got revealed and if so return 1
 int checkEnd(Player* p){
     for (int i=0; i<p->nb_card_user; i++){
         if (p->card[i].visibility==0){
@@ -10,6 +11,7 @@ int checkEnd(Player* p){
     return 1;
 }
 
+//Fonction that print each board, count each board total values, print the winner afterward
 void endgame(Player** game, int nb_player, int row, int col, int max){
     int* result=malloc(nb_player*sizeof(int));
     printf("\nEnd of the game");

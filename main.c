@@ -34,6 +34,7 @@ int main(){
     
     int index=0, turn_number=1;
     numberTurn(turn_number);
+    //take turns untill the fonction gets 0, which means someone finished his board
     while (takeTurn(game, game[index], &pile, &size_main_pile, highest_card, row, col, nb_player, nb_card_user)){
         index++;
         if (index==nb_player){
@@ -41,6 +42,17 @@ int main(){
             index-=nb_player;
             numberTurn(turn_number);
         }
+    }
+    //check if every player played the same number of times and if not make them play
+    if (index+1!=nb_player){
+        printf("\nA player has revealed every card, this is the final turn for players who haven't played yet");
+    }
+    else{
+        printf("\nThe player revealing every card of his board is the last player of the turn. No other players get another turn after this.");
+    }
+    while (index+1!=nb_player){
+        index++;
+        takeTurn(game, game[index], &pile, &size_main_pile, highest_card, row, col, nb_player, nb_card_user);
     }
     endgame(game, nb_player, row, col, highest_card);
     
@@ -52,7 +64,6 @@ int main(){
     free(pile);
 
     fclose(file);
-    free(file); //peut être ?
 
     return 0;
 }

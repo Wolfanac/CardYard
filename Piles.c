@@ -75,9 +75,11 @@ Card DrawCard(Card** pile, int *size){
     return drawnCard;
 }
 
-void replaceCard(Player* p, Card replacingCard, int index){
+void replaceCard(Player* p, Card replacingCard, int index, int max){
     Card temp=p->card[index];
     p->card[index].value=replacingCard.value;
     p->card[index].visibility=1;
+    printf("\nThe card discarded is:");
+    printCard(temp, max);
     addDiscardPile(p, temp);
 }
