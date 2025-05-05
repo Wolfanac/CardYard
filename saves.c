@@ -164,3 +164,28 @@ void PlayerStatsave(Player*p, int nb_players){
 		}
 		fclose(f);
 	}
+void PlayerStatLoad(Player *p, int nb_players){
+FILE* f= fopen("playerstats.txt", "r");
+if (f == NULL) {
+	printf("Error trying to open playerstats.txt");
+	return;
+}
+
+char line[256];
+int i= 0;
+while (fgets(line, sizeof(line), f) && i< nb_players){
+	char name[100];
+	int nb_cards, position;
+	
+	if (sscanf(line, "Name: %[^|]|| Nb_card: %d|| Position: %d", name, &nb_cards, &position) == 3) {
+		    strcpy(p[i].nickname, name);
+		    p[i].nb_card_user = nb_cards;
+		    p[i].position = position;
+		    i++;
+		} else {
+		    printf("Corrupted data,unable to read the line);
+		}
+	    }
+
+	    fclose(f);
+	}
