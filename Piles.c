@@ -33,6 +33,7 @@ void addDiscardPile(Player* p, Card addCard) {
     p->discard_size++;
 }
 
+//Fonction that take the top card from the discard pile and reallocate memory
 Card takeDiscardPile(Player* p){
     if (p->discard_size == 0) {
         printf("\n- Error discard pile empty!\n");
@@ -57,6 +58,7 @@ Card takeDiscardPile(Player* p){
     return cardTaken;
 }
 
+//Fonction that draws a card and reallocate the main pile
 Card DrawCard(Card** pile, int *size){
     Card drawnCard=(*pile)[0];
 
