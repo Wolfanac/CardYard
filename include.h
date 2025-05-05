@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-
+#include <player.h>
 
 int IsPrimeNumber(int nombre);
 
