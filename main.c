@@ -16,6 +16,7 @@ int main(){
     int row, col;
 
     printf("The main pile will have 140 cards");
+    printf("You will have the chance to save at the beginning of each turn by printing S");
     size_main_pile=140;
     pile=malloc(size_main_pile*sizeof(Card));
     createPile(file, pile, size_main_pile);
@@ -32,6 +33,7 @@ int main(){
     
     initiatePlayerboard(game, nb_player, nb_card_user, &pile, &size_main_pile, row, col, highest_card);
     
+
     int index=0, turn_number=1;
     numberTurn(turn_number);
     //take turns untill the fonction gets 0, which means someone finished his board

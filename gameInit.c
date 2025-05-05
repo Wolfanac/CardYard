@@ -171,6 +171,7 @@ void initiatePlayerboard(Player** game, int nb_player, int nb_card, Card** pile,
     }
 }
 
+
 //Fonction that makes the turn 
 int takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, int max, int row, int col, int nb_player, int nb_card){
     int discard_possibility=0;
