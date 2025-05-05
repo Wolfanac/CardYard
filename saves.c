@@ -150,3 +150,17 @@ void saving_input_warden(FILE * f, int nb_cards, Player* p, int nb_players){
 	break;
 	}
 }
+void PlayerStatsave(Player*p, int nb_players){
+		FILE* f = fopen("playerstats.txt","w+");
+		if (f == NULL){
+			printf("Error opening playerstats.txt \n");
+			return;
+		}
+		
+		for(int i=0; i < nb_players; i++){
+		fprintf(f,"Name: %s",p[i]->nickname);
+		fprintf(f,"|| Nb_card: %d",p[i]->nb_card_user);
+		fprintf(f,"|| Position: %d \n",p[i]->position);
+		}
+		fclose(f);
+	}
