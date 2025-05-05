@@ -135,21 +135,7 @@ void demandeur_sauvegarde(FILE* f, int nb_cards, Player* players, int nb_players
 	printf("Saving complete.\n");
 	exit(1);
 }
-void saving_input_warden(FILE * f, int nb_cards, Player* p, int nb_players){
-	char c;
-	scanf("%c",&c);
-	if (c == 'S' || c== 's'){
-	printf("Beginning the saving process");
-	demandeur_sauvegarde(f, nb_cards, p, nb_players);
-	break;
-	}
-	else if((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')){
-	break;
-	}
-	else{
-	break;
-	}
-}
+
 void PlayerStatsave(Player*p, int nb_players){
 		FILE* f = fopen("playerstats.txt","w+");
 		if (f == NULL){
@@ -163,29 +149,4 @@ void PlayerStatsave(Player*p, int nb_players){
 		fprintf(f,"|| Position: %d \n",p[i]->position);
 		}
 		fclose(f);
-	}
-void PlayerStatLoad(Player *p, int nb_players){
-FILE* f= fopen("playerstats.txt", "r");
-if (f == NULL) {
-	printf("Error trying to open playerstats.txt");
-	return;
-}
-
-char line[256];
-int i= 0;
-while (fgets(line, sizeof(line), f) && i< nb_players){
-	char name[100];
-	int nb_cards, position;
-	
-	if (sscanf(line, "Name: %[^|]|| Nb_card: %d|| Position: %d", name, &nb_cards, &position) == 3) {
-		    strcpy(p[i].nickname, name);
-		    p[i].nb_card_user = nb_cards;
-		    p[i].position = position;
-		    i++;
-		} else {
-		    printf("Corrupted data,unable to read the line);
-		}
-	    }
-
-	    fclose(f);
 	}
