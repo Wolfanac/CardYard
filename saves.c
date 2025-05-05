@@ -127,11 +127,11 @@ void demandeur_sauvegarde(FILE* f, int nb_cards, Player* players, int nb_players
     }
 
     printf("Beginning of the saving process...\n");
-    Sleep(1500);
   principale_deck_save(f, nb_cards);
-   	 Sleep(500);
     	printf("Deck saved successfully! Proceeding with the discard piles...\n");
     	SaveDiscardPile(players, nb_players);
+	printf("Discard piles saved! Dealing with the player stats...\n");
+	PlayerStatLoad(players,nb_players)
 	printf("Saving complete.\n");
 	exit(1);
 }
