@@ -159,8 +159,8 @@ void PlayerStatsave(Player*p, int nb_players){
 		
 		for(int i=0; i < nb_players; i++){
 		fprintf(f,"Name: %s",p[i]->nickname);
-		fprintf(f,"| Nb_card: %d",p[i]->nb_card_user);
-		fprintf(f,"| Position: %d \n",p[i]->position);
+		fprintf(f,"|| Nb_card: %d",p[i]->nb_card_user);
+		fprintf(f,"|| Position: %d \n",p[i]->position);
 		}
 		fclose(f);
 	}
