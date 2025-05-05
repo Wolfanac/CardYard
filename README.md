@@ -15,10 +15,11 @@ Les cartes restantes forment la pioche principale. Chaque joueur commence aussi 
 Déroulement d’un tour
 À votre tour, piochez la carte du dessus de la pile principale, puis choisissez entre deux options :
 
-    L’échanger avec une carte de votre plateau (révélée ou non), que vous défaussez.
+-L’échanger avec une carte de votre plateau (révélée ou non), que vous défaussez.
 
-    Prendre la carte du dessus de la pile de défausse d’un autre joueur et l’échanger de la même manière.
-    Toutes les cartes échangées sont posées face visible.
+-Prendre la carte du dessus de la pile de défausse d’un autre joueur et l’échanger de la même manière.
+    
+Toutes les cartes échangées sont posées face visible.
 
 Destruction de colonne
 Lorsqu’une colonne de votre plateau contient uniquement des cartes identiques, elle est détruite (retirée du jeu).
