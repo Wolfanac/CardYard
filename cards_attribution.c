@@ -57,6 +57,7 @@ FILE* cards_atribution(){
              int see;
              do {
                 see=scanf("%d", &originalnumber);
+                empty_buffer();
                 if (see!=1){
                     printf("You need to enter a number. Try again");
                 }
