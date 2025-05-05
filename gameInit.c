@@ -133,7 +133,8 @@ void initiatePlayerboard(Player** game, int nb_player, int nb_card, Card** pile,
     }
 }
 
-int takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, int max, int row, int col, int nb_player, int nb_card){
+int takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, int max, int row, int col, int nb_player, int nb_card, FILE * f){
+    saving_input_warden(f,nb_card,  p, nb_player);
     int discard_possibility=0;
     printf("\nIt's the turn of the player number %d, named %s", p->position, p->nickname);
     printf("\nYour board is the following one: ");
