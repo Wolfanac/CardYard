@@ -135,3 +135,18 @@ void demandeur_sauvegarde(FILE* f, int nb_cards, Player* players, int nb_players
 	printf("Saving complete.\n");
 	exit(1);
 }
+void saving_input_warden(FILE * f, int nb_cards, Player* p, int nb_players){
+	char c;
+	scanf("%c",&c);
+	if (c == 'S' || c== 's'){
+	printf("Beginning the saving process");
+	demandeur_sauvegarde(f, nb_cards, p, nb_players);
+	break;
+	}
+	else if((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')){
+	break;
+	}
+	else{
+	break;
+	}
+}
