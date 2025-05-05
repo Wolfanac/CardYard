@@ -16,6 +16,7 @@ int main(){
     int row, col;
 
     printf("The main pile will have 140 cards");
+    printf("You will have the chance to save at the beginning of each turn by printing S");
     size_main_pile=140;
     pile=malloc(size_main_pile*sizeof(Card));
     createPile(file, pile, size_main_pile);
