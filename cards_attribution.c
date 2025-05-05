@@ -2,13 +2,12 @@
 
 FILE* change_cards(FILE* usedcards);
 
-
+//create a file to store, create, and position randomely the cards in it
 FILE* cards_atribution(){
-    //create a file to store, create, and position randomely the cards in it
     FILE* usedcards = NULL;
     usedcards = fopen("cards.txt", "w+");
 
-    //check if the file have been open
+    //check if there is an error
     if (usedcards == NULL) {
         printf("ouverture impossible");
         exit(1);
@@ -34,7 +33,7 @@ FILE* cards_atribution(){
     return usedcards;
 }
 
-
+//Fonction that will change values of card in the deck if wanted
  FILE* change_cards(FILE* usedcards){ 
 
      rewind(usedcards);
@@ -42,41 +41,48 @@ FILE* cards_atribution(){
      //make the player change the values in the pile of cards
      int a=0;
      char  value[10];
-     int i=0, number=0, v=0, fileupdate[140], originalnumber, testvalue=0;
+     int i=0, number=0, v=0, fileupdate[140], originalnumber;
      printf("\n do you wish to change some cards ? ");
      scanf("%s", value);
-
      while (strcmp(value, "no") != 0){
 
          while (strcmp(value, "yes") == 0) {
 
              i = 0;
              v = 0;
-             testvalue=0;
              number = 0;
              originalnumber = 0; 
 
              printf("\n what numbers do you wish to change ? ");
-             scanf("%d", &originalnumber);
+             int see;
+             do {
+                see=scanf("%d", &originalnumber);
+                empty_buffer();
+                if (see!=1){
+                    printf("You need to enter a number. Try again");
+                }
+             }while(see!=1);
              int changenumber=originalnumber;
              printf("\n to what number ? ");
-             scanf("%d", &changenumber);
+             do {
+                see=scanf("%d", &changenumber);
+                if (see!=1){
+                    printf("You need to enter a number. Try again");
+                }
+             }while(see!=1);
              if (changenumber==originalnumber){
-                 printf("\n please enter a number different from the original number, or a proper number ");
-                 // clear input buffer
-                 while (getchar() != '\n');
+                printf("\n please enter a number different from the original number");
+                while (getchar() != '\n');
              }
              else{
                   printf("\n you change the number %d to %d ", originalnumber, changenumber);
                 
-                 //put all values in a list
                  rewind(usedcards);
                  while (fscanf(usedcards, "%d", &a)==1){
                      fileupdate[i]=a;
                      i++;
                  }
                 
-                 //change the values in the list
                  while (v<i){
                      if (fileupdate[v]==originalnumber){
                          fileupdate[v]=changenumber;
@@ -94,25 +100,19 @@ FILE* cards_atribution(){
                  rewind(usedcards);
                  v=0;
 
-                 //print the list in the file
                  while (v<i){
                      fprintf(usedcards, "%d", fileupdate[v]);
                      fputs(" ", usedcards);
                      v++;
                  }
-                 // clear input buffer
                  while (getchar() != '\n');
 
-                 //ask to continue
                  printf("\n do you wish to change some cards ? ");
                  scanf("%s", value);
                  
-                 
-
              }
          }
 
-         //mistypes
          if (strcmp(value, "no") != 0 && strcmp(value, "yes") != 0) {
              printf("\n Please enter either 'yes' or 'no': ");
              scanf("%s", value);
@@ -121,6 +121,6 @@ FILE* cards_atribution(){
      }
 
      
-     return usedcards;
+    return usedcards;
      
  }

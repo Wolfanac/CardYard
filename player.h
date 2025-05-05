@@ -40,7 +40,7 @@ char* colorChoice(Card card, int max);
 
 int findHighestCard(Card* pile, int* size_main_pile);
 
-void replaceCard(Player* p, Card replacingCard, int index);
+void replaceCard(Player* p, Card replacingCard, int index, int max);
 
 Card takeDiscardPile(Player* p);
 
@@ -59,3 +59,5 @@ void LoadDiscardPile(Player* p, int nb_players);
 int* principale_deck_load(int number_of_cards);
 
 void principale_deck_save(FILE *fichier, int number_of_cards);
+
+void PlayerStatsave(Player*p, int nb_players);

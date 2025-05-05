@@ -20,7 +20,7 @@ int printPlayer(Player *p, int begining){
     return sum;
 }
 
-
+//Fonction that prints the value of the top card from a player's discard pile
 void printTopDiscardPile(Player* p){
     int size=p->discard_size;
     if (size!=0){
@@ -31,19 +31,7 @@ void printTopDiscardPile(Player* p){
     }
 }
 
-void printTotalDiscardPile(Player* p){
-//     int size=p->discard_size;
-//     if (size!=0){
-//         printf("\nCards in your discard pile are: ");
-//         for (int i=0; i<size; i++){
-//             printf("%d ", p->discard_pile[i].value);
-//         }
-//     }
-//     else{
-//         printf("You don't have any card in you discard pile");
-//     }
-}
-
+//Fonction that prints the card given. The color of each card will be according to the highest value in the deck
 void printCard(Card card, int max){
     printf("\n\n");
     int height=15;
@@ -94,6 +82,7 @@ void printCard(Card card, int max){
     printf("\033[0m");
 }
 
+//Fonction that prints every card of the board of the player given
 void printBoard(Player* p, int row, int col, int max) {
     printf("\n\n");
     int height = 15;
@@ -104,6 +93,7 @@ void printBoard(Player* p, int row, int col, int max) {
                 Card card = p->card[r * col + c]; 
                 char* print1;
                 char* print2;
+                //check if the card is destroyed so I don't print it
                 if (strcmp(card.exist, "destroyed")==0){
                     print1=" ";
                     print2=" ";
@@ -122,6 +112,7 @@ void printBoard(Player* p, int row, int col, int max) {
                 else {
                     color="\033[0m";
                 }
+                //Size usefull for putting the value right in the middle of the card
                 if (card.visibility==1){
                     size = sizeNumber(card.value);
                 }
@@ -162,21 +153,6 @@ void printBoard(Player* p, int row, int col, int max) {
 }
 
 
-
-char* colorChoice(Card card, int max){
-    if (card.value < 0){
-        return "\033[34m"; // blue
-    }
-    else if (card.value == 0){
-        return "\033[36m"; // Cyan
-    }
-    else if (card.value <= max / 3){
-        return "\033[32m"; // green
-    }
-    else if (card.value <= (2 * max) / 3){
-        return "\033[33m"; // yellow
-    }
-    else {
-        return "\033[31m"; // red
-    }
+void numberTurn(int turn_number){
+    printf("This is the turn number %d", turn_number);
 }

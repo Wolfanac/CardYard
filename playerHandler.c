@@ -10,17 +10,13 @@ Player* create_player(int card_user, int pos, int redoing) {
     else {
         printf("\nRedoing the player...");
     }
-    Sleep(2000);
     printf("...");
-    Sleep(2000);
   
     Player* j1 = malloc(sizeof(Player));
     if (j1 == NULL) {
         printf("\n- Error allocating player ");
         exit(1);
     }
-
-    //Il faudra faire une fonction à part pour s'occuper des cartes
 
     j1->card = malloc(card_user * sizeof(Card));
     if (j1->card == NULL) {
@@ -50,14 +46,14 @@ Player* create_player(int card_user, int pos, int redoing) {
 // Recursive fonction that allows the user to confirm, redo or destroy the player
 int CheckPlayer(Player *p, int a) {
     char changing[10];
-
+    char* confirm;
     if (a == 0) {
         printf("\nI will print what you've written. Confirm afterward by typing 'yes' or 'no' ");
-        Sleep(2500);
         printPlayer(p, 1);
-        char* confirm=YesNoFonction();
+        confirm=YesNoFonction();
 
         if (strcmp(confirm, "yes") == 0) {
+            free(confirm);
             return 1;
         } else {
             a = 1;
@@ -75,26 +71,27 @@ int CheckPlayer(Player *p, int a) {
     if (strcmp(changing, "redo") == 0) {
         *p = *create_player(p->nb_card_user, p->position, 1);
         printf("\nThis will be the new player:\n");
-        Sleep(1500);
         printPlayer(p, 1);
         printf("\nDoes it correspond to what you wanted? (yes/no): ");
-        char* confirm=YesNoFonction();
+        confirm=YesNoFonction();
 
         if (strcmp(confirm, "yes") == 0) {
+            free(confirm);
             return 1;
         } else {
+            free(confirm);
             return CheckPlayer(p, 1);
         }
-        free(confirm);
     } else {
         printf("Are you sure you want to delete it? (yes/no): ");
-        char* confirm=YesNoFonction();
+        confirm=YesNoFonction();
 
         if (strcmp(confirm, "yes") == 0) {
             printf("Player will be erased.\n");
-            Sleep(2000);
+            free(confirm);
             return 0; 
         } else {
+            free(confirm);
             return CheckPlayer(p, 0);
         }
     }
@@ -105,35 +102,35 @@ int CheckPlayer(Player *p, int a) {
 char* AskNickname(){
     char* name = NULL;
     char* temp = NULL;
-    int nb_char;
     int ch;
-    
+    int nb_char;
+    size_t len;
+    int see;
     do {
         printf("\nHow many characters in your nickname? ");
-        scanf("%d", &nb_char);
-        if (nb_char > 100) {
-            printf("\n- Error - Too many characters - ending the program");
-            exit(1);
+        see=scanf("%d", &nb_char);
+        empty_buffer();
+        if (see!=1){
+            printf("You need to enter a number. Type again: ");
+            continue;
         }
-    
-        while ((ch = getchar()) != '\n' && ch != EOF);
-    
-        name = realloc(name, (nb_char + 1) * sizeof(char));
-        if (name == NULL) {
-            printf("\n- Error allocating nickname");
-            exit(1);
+        if (nb_char>=100){
+            printf("Too many characters. Enter a number below 100");
+            continue;
         }
-    
+        
+        //I create another char* that can take a bit more than the real one so i can check if the number of char entered is the correct before putting in the main string
         temp = realloc(temp, (nb_char + 2) * sizeof(char)); 
         if (temp == NULL) {
             printf("\n- Error allocating temp");
             exit(1);
         }
     
-        printf("\nWrite the name of your player: ");
+        printf("\nWrite the name of your player. It can have numbers and spaces if wanted: ");
         fgets(temp, nb_char + 2, stdin); 
     
-        size_t len = strlen(temp);
+        //I need to reduce the len by one because the last char of the string isn't a real one
+        len = strlen(temp);
         if (temp[len - 1] != '\n') {
             while ((ch = getchar()) != '\n' && ch != EOF);
         } else {
@@ -142,26 +139,33 @@ char* AskNickname(){
         }
         
     
-        if ((int)len != nb_char) {
+        if (len != nb_char) {
             printf("\nYou didn't enter exactly %d characters. Enter the number of characters you want once again.", nb_char);
         }
     
-    } while (strlen(temp) != nb_char);
+    } while (len != nb_char||see!=1);
     
+    name = realloc(name, (nb_char + 1) * sizeof(char));
+    if (name == NULL) {
+        printf("\n- Error allocating nickname");
+        exit(1);
+    }
     strcpy(name, temp);
     free(temp);
 
     return name;
 }
 
+//Fonction that will check if a column is composed of the same card, if it is, calls another function 'destroyCol' which will destroy this column
 void checkCol(Player* p, int row, int col){
     int colToDestroy;
     int cardValue;
     for (int i=0; i<(p->nb_card_user)/row; i++){
         colToDestroy=0;
         cardValue=p->card[i].value;
+        //check each row to see if the card is the same of the first one, and if this card is already destroyed or not
         for (int r=0; r<row; r++){
-            if (strcmp(p->card[i + r * col].exist, "destroyed")==0 && p->card[i+r*col].visibility==1 && p->card[i+r*col].value==cardValue){
+            if (strcmp(p->card[i + r * col].exist, "destroyed")!=0 && p->card[i+r*col].visibility==1 && p->card[i+r*col].value==cardValue){
                 colToDestroy++;
             }
             if (r==row-1 && colToDestroy==row){
@@ -173,10 +177,9 @@ void checkCol(Player* p, int row, int col){
 
 }
 
+//Destroy the column starting from the card 'index+1'
 void destroyCol(Player* p, int row, int col, int index){
     printf("\nThe column is being removed...");
-    Sleep(1500);
-    printf("...");
     int* tabIndice=malloc(row*sizeof(int));
     if (tabIndice==NULL){
         printf("\n- Error when destroying column");
@@ -187,6 +190,7 @@ void destroyCol(Player* p, int row, int col, int index){
     }
 
     index=0;
+    //Checking for every card of the board if this card is the column
     for (int i=0; i<p->nb_card_user; i++){
         for (int j=0; j<row; j++){
             if (i==tabIndice[j]){

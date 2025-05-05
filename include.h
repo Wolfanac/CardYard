@@ -10,4 +10,12 @@ int sizeNumber(int number);
 
 FILE* cards_atribution();
 
+FILE* change_cards(FILE* usedcards);
+
 char* YesNoFonction();
+
+void empty_buffer();
+
+void numberTurn(int turn_number);
+
+void pressToContinue();
