@@ -186,7 +186,6 @@ int takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, in
         if ((game[i]->discard_size)>0){
             discard_possibility=1;
         }
-        Sleep(1500);
         printf("\n");
     }
     pressToContinue();

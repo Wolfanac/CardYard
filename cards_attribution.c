@@ -59,7 +59,7 @@ FILE* cards_atribution(){
                 see=scanf("%d", &originalnumber);
                 empty_buffer();
                 if (see!=1){
-                    printf("You need to enter a number. Try again");
+                    printf("You need to enter a number. Try again ");
                 }
              }while(see!=1);
              int changenumber=originalnumber;
@@ -67,11 +67,11 @@ FILE* cards_atribution(){
              do {
                 see=scanf("%d", &changenumber);
                 if (see!=1){
-                    printf("You need to enter a number. Try again");
+                    printf("You need to enter a number. Try again ");
                 }
              }while(see!=1);
              if (changenumber==originalnumber){
-                printf("\n please enter a number different from the original number");
+                printf("\n please enter a number different from the original number ");
                 while (getchar() != '\n');
              }
              else{
