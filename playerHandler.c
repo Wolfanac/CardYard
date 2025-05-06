@@ -45,6 +45,10 @@ Player* create_player(int card_user, int pos, int redoing) {
 
 // Recursive fonction that allows the user to confirm, redo or destroy the player
 int CheckPlayer(Player *p, int a) {
+    if (p==NULL){
+        printf("- Error trying to find the player ");
+        exit(1);
+    }
     char changing[10];
     char* confirm;
     if (a == 0) {
@@ -158,6 +162,10 @@ char* AskNickname(){
 
 //Fonction that will check if a column is composed of the same card, if it is, calls another function 'destroyCol' which will destroy this column
 void checkCol(Player* p, int row, int col){
+    if (p==NULL){
+        printf("- Error trying to check the player's column ");
+        exit(1);
+    }
     int colToDestroy;
     int cardValue;
     for (int i=0; i<(p->nb_card_user)/row; i++){
@@ -179,6 +187,10 @@ void checkCol(Player* p, int row, int col){
 
 //Destroy the column starting from the card 'index+1'
 void destroyCol(Player* p, int row, int col, int index){
+    if (p==NULL){
+        printf("- Error trying to destroy the player's column ");
+        exit(1);
+    }
     printf("\nThe column is being removed...");
     int* tabIndice=malloc(row*sizeof(int));
     if (tabIndice==NULL){

@@ -18,3 +18,5 @@ void empty_buffer();
 void numberTurn(int turn_number);
 
 void pressToContinue();
+
+void check_error(FILE * file);

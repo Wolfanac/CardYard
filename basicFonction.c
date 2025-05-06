@@ -15,6 +15,10 @@ int IsPrimeNumber(int nombre){
 
 //Fonction that return the max value of the pile
 int findHighestCard(Card* pile, int *size_main_pile){
+    if (pile==NULL || size_main_pile==NULL){
+        printf("- Error finding pile or its size ");
+        exit(1);
+    }
     int max=pile[0].value;
     for (int i=1; i< *size_main_pile; i++){
         if (pile[i].value>max){
@@ -72,8 +76,13 @@ char* YesNoFonction(){
 //Fonction that stop the program momently so we can see what happened
 void pressToContinue() {
     char pass[100];
-    printf("\nPress any key then Enter to continue: ");
-    fgets(pass, sizeof(pass), stdin); 
+    do{
+        printf("\nPress Enter to continue: ");
+        fgets(pass, sizeof(pass), stdin); 
+        if (strcmp(pass, "\n")!=0){
+            printf("You didn't press Enter. Try again: ");
+        }
+    }while (strcmp(pass, "\n")!=0);
 }
 
 
