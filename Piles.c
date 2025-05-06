@@ -4,6 +4,10 @@
 
 //Fonction that creates the main pile from which cards will be taken
 void createPile(FILE* file, Card* pile, int size) {
+    if (file==NULL || pile==NULL){
+        printf("- Error creating the pile ");
+        exit(1);
+    }
     rewind(file);
     for (int i = 0; i < size; i++) {
         if (fscanf(file, "%d", &pile[i].value) != 1) {
@@ -21,6 +25,10 @@ void createPile(FILE* file, Card* pile, int size) {
 
 //Fonction that adds a card to a discard pile
 void addDiscardPile(Player* p, Card addCard) {
+    if (p==NULL){
+        printf("- Error when looking the discard pile ");
+        exit(1);
+    }
     Card* temp = realloc(p->discard_pile, (p->discard_size + 1) * sizeof(Card));
     if (temp == NULL) {
         printf("\n- Error allocating new discard pile");
@@ -35,8 +43,12 @@ void addDiscardPile(Player* p, Card addCard) {
 
 //Fonction that take the top card from the discard pile and reallocate memory
 Card takeDiscardPile(Player* p){
+    if (p==NULL){
+        printf("- Error while trying to take a card from a discard pile");
+        exit(1);
+    }
     if (p->discard_size == 0) {
-        printf("\n- Error discard pile empty!\n");
+        printf("\n- Error, discard pile empty!\n");
         exit(1);
     }
 
@@ -60,6 +72,10 @@ Card takeDiscardPile(Player* p){
 
 //Fonction that draws a card and reallocate the main pile
 Card DrawCard(Card** pile, int *size){
+    if (pile==NULL || size==NULL){
+        printf("- Error when trying to draw a card ");
+        exit(1);
+    }
     Card drawnCard=(*pile)[0];
 
     for (int i=1; i<*size; i++){
@@ -78,7 +94,12 @@ Card DrawCard(Card** pile, int *size){
 }
 
 void replaceCard(Player* p, Card replacingCard, int index, int max){
+    if (p==NULL){
+        printf("- Error while trying to replace a card ");
+        exit(1);
+    }
     Card temp=p->card[index];
+    temp.visibility=1;
     p->card[index].value=replacingCard.value;
     p->card[index].visibility=1;
     printf("\nThe card discarded is:");

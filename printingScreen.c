@@ -3,6 +3,10 @@
 
 //Priting main informations of the player, name, position, state of discard pile and current progression of cards and point
 int printPlayer(Player *p, int begining){
+    if (p==NULL){
+        printf("- Error trying to print the player ");
+        exit(1);
+    }
     int sum=0;
     for (int i=0; i<(p->nb_card_user); i++){
         if (p->card[i].visibility==1){
@@ -13,8 +17,8 @@ int printPlayer(Player *p, int begining){
     printf("Player name: %s\n", p->nickname);
     printf("Player number: %d\n", p->position);
     if (begining!=1){
-        printf("Discard pile: %s\n", p->discard_pile==NULL ? "None" : "Not empty");
-        printf("The sum of visible cards is %d\n\n", sum);
+        printTopDiscardPile(p);
+        printf("\nThe sum of visible cards is %d\n\n", sum);
     }
     
     return sum;
@@ -22,6 +26,10 @@ int printPlayer(Player *p, int begining){
 
 //Fonction that prints the value of the top card from a player's discard pile
 void printTopDiscardPile(Player* p){
+    if (p==NULL){
+        printf("- Error trying to print a player's discard pile ");
+        exit(1);
+    }
     int size=p->discard_size;
     if (size!=0){
         printf("\nTop Discard card: %d", p->discard_pile[size-1].value);
@@ -84,6 +92,10 @@ void printCard(Card card, int max){
 
 //Fonction that prints every card of the board of the player given
 void printBoard(Player* p, int row, int col, int max) {
+    if (p==NULL){
+        printf("- Error trying to print the player's board ");
+        exit(1);
+    }
     printf("\n\n");
     int height = 15;
     int width = 15;
@@ -154,5 +166,5 @@ void printBoard(Player* p, int row, int col, int max) {
 
 
 void numberTurn(int turn_number){
-    printf("This is the turn number %d", turn_number);
+    printf("\nThis is the turn number %d", turn_number);
 }

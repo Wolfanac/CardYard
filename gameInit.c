@@ -5,6 +5,10 @@
 //Fonction that initiates the game
 //Creating number of player, number of cards, and the board with all players that are going to be created
 Player** InitGame(FILE* file, int* nb_player, int *nb_card_user){  
+    if (file==NULL || nb_player==NULL || nb_card_user==NULL){
+        printf("- Error initiating game ");
+        exit(1);
+    }
     printf("\nCardYard - Games Rules\nObjective\nEnd the game with the lowest total score. The game ends when a player reveal all of his cards. The player with the lowest score at that time wins.");
     printf("\n\nCards and Setup\nUse a deck of cards numbered -2 to 12 (140 cards total)\nEach player gets x cards, where x is the number you will enter\nEvery player flips over 2 cards of their choice at the start\nThe rest of the cards form the draw pile, and each player starts the game with an empty discard pile");
     printf("\n\nTurn\nOn your turn you draw the top card from the main pile and then have two choices:\n    Swap it with one card from your board, revealed or not, that you will discard\n    Take the top card of any player's discard Pile and same thing as above\nAll cards swaped go face up");
@@ -86,6 +90,10 @@ Player** InitGame(FILE* file, int* nb_player, int *nb_card_user){
 
 //creates the number of row and columns
 void choseRowCol(int* row, int* col, int nb_card_user){
+    if (row==NULL || col==NULL){
+        printf("- Error locating the row or column ");
+        exit(1);
+    }
     int see=0;
     do{
         printf("\nHow many rows do you want ? ");
@@ -132,6 +140,10 @@ void choseRowCol(int* row, int* col, int nb_card_user){
 
 //Fonction that creates the board of the player and put it in the game
 void initiatePlayerboard(Player** game, int nb_player, int nb_card, Card** pile, int* size_deck, int row, int col, int highest_card){
+    if (game==NULL || pile==NULL || size_deck==NULL){
+        printf("- Error creating the boards ");
+        exit(1);
+    }
     int temp;
     int index;
     for (int i=0; i<nb_player; i++){
@@ -167,13 +179,18 @@ void initiatePlayerboard(Player** game, int nb_player, int nb_card, Card** pile,
         }
         printf("\nThe board of the player number %d is now: ", i+1);
         printBoard(game[i], row, col, highest_card);
+        checkCol(game[i], row, col);
         pressToContinue();
     }
 }
 
 
 //Fonction that makes the turn 
-int takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, int max, int row, int col, int nb_player, int nb_card){
+int takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, int max, int row, int col, int nb_player, int nb_card, int over){
+    if (game==NULL || p==NULL || main_pile==NULL || size_main_pile== NULL){
+        printf("- Error trying to initiate the turn");
+        exit(1);
+    }
     int discard_possibility=0;
     printf("\nIt's the turn of the player number %d, named %s", p->position, p->nickname);
     printf("\nYour board is the following one: ");
@@ -181,7 +198,7 @@ int takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, in
     printf("\nCards in discard piles are: \n");
     //print each player's top discard pile
     for (int i=0; i<nb_player; i++){
-        printf("\nPlayer number%d (%s): ", game[i]->position, game[i]->nickname);
+        printf("\nPlayer number %d (%s): ", game[i]->position, game[i]->nickname);
         printTopDiscardPile(game[i]);
         if ((game[i]->discard_size)>0){
             discard_possibility=1;
@@ -219,13 +236,16 @@ int takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, in
                 printf("You need to enter a number. Type again: ");
                 continue;
             }
+            if (strcmp(p->card[index-1].exist, "destroyed")==0){
+                printf("\n- Error - card already destroyed. Type again ");
+            }
             if (index<=0||index>nb_card){
                 printf("\n- Error - Wrong number - Try again ");
             }
             if (index==temp){
-                printf("\n- Error - Number already chosen ");
+                printf("\n- Error - Number already chosen. Type again ");
             }
-        }while (index<=0||index>nb_card||index==temp||see!=1);
+        }while (index<=0||index>nb_card||index==temp||strcmp(p->card[index-1].exist, "destroyed")==0||see!=1);
         index--;
         replaceCard(p, cardDrawn, index, max);
     }
@@ -245,7 +265,7 @@ int takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, in
                 continue;
             }
             if (game[choix-1]->discard_pile==0){
-                printf("\nThis player has no discard pile ");
+                printf("\nThis player has no discard pile. Type again ");
             }
         }while(choix<=0||choix>nb_player||game[choix-1]->discard_pile==0||see!=1);
         Card cardStolen=takeDiscardPile(game[choix-1]);
@@ -260,13 +280,13 @@ int takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, in
                 continue;
             }
             if (strcmp(p->card[index-1].exist, "destroyed")==0){
-                printf("\n- Error - card already destroyed ");
+                printf("\n- Error - card already destroyed. Type again ");
             }
             if (index<=0||index>nb_card){
                 printf("\n- Error - Wrong number - Try again ");
             }
             if (index==temp){
-                printf("\n- Error - Number already chosen ");
+                printf("\n- Error - Number already chosen. Type again ");
             }
         }while (index<=0||index>nb_card||index==temp||strcmp(p->card[index-1].exist, "destroyed")==0||see!=1);
         index--;
@@ -275,9 +295,14 @@ int takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, in
     }
     checkCol(p, row, col);
 
-    //If end return 0 so the while from main ends, continue the game
+    //If end return 0 so the while from main ends, if the while is already over then last turn else continue the game
     if (checkEnd(p)==1){
         return 0;
+    }
+    else if (over==1){
+        printf("This was you last turn, your board will be printed at then end with others");
+        pressToContinue();
+        return 1;
     }
     else {
         printf("\nThe current state of you board is: ");
