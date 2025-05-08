@@ -14,6 +14,19 @@ int checkEnd(Player* p){
     }
     return 1;
 }
+//sort the results
+void sortArray(int result[], int nb_player) {
+    int temp;
+    for (int i = 0; i < size - 1; i++) {
+        for (int j = 0; j < size - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}
 
 //Fonction that print each board, count each board total values, print the winner afterward
 void endgame(Player** game, int nb_player, int row, int col, int max){
@@ -44,13 +57,41 @@ void endgame(Player** game, int nb_player, int row, int col, int max){
     }
 
     int min=result[0];
-    int minIndex=0;
+    int scoresresult[nb_player];
+    for (int i=0; i<nb_player; i++){
+       sortArray(scoresresult, nb_player);
+       }
+    int minIndex=[8];
+    int equal=0, minimum=0, a=0;
     for (int i=1; i<nb_player; i++){
         if (result[i]<min){
             min=result[i];
-            minIndex=i;
+            minIndex[0]=i;
         }
     }
-    printf("\nThe winner of the game is the player number %d, with has the lowest total of points with %d points, which means %s won!", minIndex+1, min, game[minIndex]->nickname);
+    for (int i=1; i<nb_player; i++){
+      if (scoresresult[i]==scoresresult[1+1]){
+        equal=1;
+        minimum=scoresresult[i];
+        }
+      }
+      
+    for (int i=1; i<nb_player; i++){
+      if (scoresresult[i]==minimum){
+        minIndex[a]=i;
+        a++;
+        }
+      }
+    
+    if (equal==1&&min==equal){
+      printf("\nthere is an equality for %d points ! the top players are :\n", min);
+      for (int b=a, b<=0; b--){
+        printf("player numbered %d named %s",minIndex[b]+1, game[minIndex[b]]->nickname);
+        }
+        
+    }
+    else{
+      printf("\nThe winner of the game is the player number %d, with has    the lowest total of points with %d points, which means %s won!", minIndex[0]+1, min, game[minIndex[0]]->nickname);
+    }
     free(result);
 }
