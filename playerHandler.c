@@ -122,6 +122,10 @@ char* AskNickname(){
             printf("Too many characters. Enter a number below 100");
             continue;
         }
+        if (nb_char<=0){
+            printf("You need to enter a number greater than 0");
+            continue;
+        }
         
         //I create another char* that can take a bit more than the real one so i can check if the number of char entered is the correct before putting in the main string
         temp = realloc(temp, (nb_char + 2) * sizeof(char)); 
