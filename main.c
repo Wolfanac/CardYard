@@ -42,9 +42,10 @@ int main(){
     int index=0, turn_number=1;
     numberTurn(turn_number);
     //take turns untill the fonction gets 0, which means someone finished his board
-    while (takeTurn(game, game[index], &pile, &size_main_pile, highest_card, row, col, nb_player, nb_card_user, 0)){
+    while (takeTurn(game, game[index], pile, &size_main_pile, highest_card, row, col, nb_player, nb_card_user, 0)){
         index++;
         if (index==nb_player){
+            saving_input_warden(game, size_main_pile, nb_player, pile);
             turn_number++;
             index-=nb_player;
             numberTurn(turn_number);
@@ -61,7 +62,7 @@ int main(){
     }
     while (index+1!=nb_player){
         index++;
-        takeTurn(game, game[index], &pile, &size_main_pile, highest_card, row, col, nb_player, nb_card_user, 1);
+        takeTurn(game, game[index], pile, &size_main_pile, highest_card, row, col, nb_player, nb_card_user, 1);
     }
     endgame(game, nb_player, row, col, highest_card);
     

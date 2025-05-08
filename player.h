@@ -26,8 +26,6 @@ int printPlayer(Player *p, int begining);
 
 void printTopDiscardPile(Player* p);
 
-void printTotalDiscardPile(Player* p);
-
 void addDiscardPile(Player* p, Card addCard);
 
 Card DrawCard(Card** pile, int* size);
@@ -52,12 +50,18 @@ void destroyCol(Player* p, int row, int col, int index);
 
 void endgame(Player** game, int nb_player, int row, int col, int max);
 
-void SaveDiscardPile(Player* p,int nb_players);
+void LoadDiscardPile(Player** game, int nb_players);
 
-void LoadDiscardPile(Player* p, int nb_players);
+void SaveDiscardPile(Player** game, int nb_players);
 
 int* principale_deck_load(int number_of_cards);
 
-void principale_deck_save(FILE *fichier, int number_of_cards);
+void principale_deck_save(int number_of_cards, Card* main_pile);
 
-void PlayerStatsave(Player*p, int nb_players);
+void demandeur_sauvegarde(Player** game, int nb_cards_pile, int nb_players, Card** main_pile);
+
+void PlayerStatsave(Player** game, int nb_players);
+
+void PlayerStatLoad(Player** game, int nb_players);
+
+void saving_input_warden(Player** game, int nb_cards_pile, int nb_players, Card* main_pile);
