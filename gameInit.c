@@ -78,7 +78,7 @@ Player** InitGame(FILE* file, int* nb_player, int *nb_card_user){
     }
     *nb_player=validPlayer;
 
-    
+
     return game;
 }
 
@@ -181,7 +181,7 @@ void initiatePlayerboard(Player** game, int nb_player, int nb_card, Card** pile,
 
 
 //Fonction that makes the turn 
-int takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, int max, int row, int col, int nb_player, int nb_card, int over){
+int takeTurn(Player** game, Player* p, Card* main_pile, int* size_main_pile, int max, int row, int col, int nb_player, int nb_card, int over){
     if (game==NULL || p==NULL || main_pile==NULL || size_main_pile== NULL){
         printf("- Error trying to initiate the turn");
         exit(1);
@@ -203,7 +203,7 @@ int takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, in
     pressToContinue();
     char takeCard[8];
     int index, temp=-1;
-    Card cardDrawn=DrawCard(main_pile, size_main_pile);
+    Card cardDrawn=DrawCard(&main_pile, size_main_pile);
     printf("\nThe card drawn is :");
     printCard(cardDrawn, max);
     if (discard_possibility==1){
