@@ -9,11 +9,6 @@ Player** InitGame(FILE* file, int* nb_player, int *nb_card_user){
         printf("- Error initiating game ");
         exit(1);
     }
-    printf("\nCardYard - Games Rules\nObjective\nEnd the game with the lowest total score. The game ends when a player reveal all of his cards. The player with the lowest score at that time wins.");
-    printf("\n\nCards and Setup\nUse a deck of cards numbered -2 to 12 (140 cards total)\nEach player gets x cards, where x is the number you will enter\nEvery player flips over 2 cards of their choice at the start\nThe rest of the cards form the draw pile, and each player starts the game with an empty discard pile");
-    printf("\n\nTurn\nOn your turn you draw the top card from the main pile and then have two choices:\n    Swap it with one card from your board, revealed or not, that you will discard\n    Take the top card of any player's discard Pile and same thing as above\nAll cards swaped go face up");
-    printf("\n\nWhen you have a column full of same cards, it will be destroyed");
-    printf("\n\nWhen a player has revealed every card, we still finish the turn. Then every card from each board is revealed and each player counts their score according to the values on the cards and the player with the lowest total wins");
 
     //Number of cards
     printf("\n\nHow many cards will you start with ? ");
@@ -236,12 +231,14 @@ int takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, in
                 printf("You need to enter a number. Type again: ");
                 continue;
             }
+            if (index<=0||index>nb_card){
+                printf("\n- Error - Wrong number - Try again ");
+                continue;
+            }
             if (strcmp(p->card[index-1].exist, "destroyed")==0){
                 printf("\n- Error - card already destroyed. Type again ");
             }
-            if (index<=0||index>nb_card){
-                printf("\n- Error - Wrong number - Try again ");
-            }
+
             if (index==temp){
                 printf("\n- Error - Number already chosen. Type again ");
             }
@@ -279,12 +276,14 @@ int takeTurn(Player** game, Player* p, Card** main_pile, int* size_main_pile, in
                 printf("You need to enter a number. Type again: ");
                 continue;
             }
+            if (index<=0||index>nb_card){
+                printf("\n- Error - Wrong number - Try again ");
+                continue;
+            }
             if (strcmp(p->card[index-1].exist, "destroyed")==0){
                 printf("\n- Error - card already destroyed. Type again ");
             }
-            if (index<=0||index>nb_card){
-                printf("\n- Error - Wrong number - Try again ");
-            }
+
             if (index==temp){
                 printf("\n- Error - Number already chosen. Type again ");
             }
