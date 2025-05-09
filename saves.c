@@ -298,20 +298,44 @@ void loadDiscardPile(Player** game, int nb_players) {
         printf("Error opening discardsave.txt\n");
         return;
     }
+
     rewind(f);
 
-    for (int i=0; i<nb_players; i++){
-        fscanf(f, "%d", &game[i]->discard_size);
-        if (game[i]->discard_size!=0){
-            game[i]->discard_pile=malloc(game[i]->discard_size*sizeof(Card));
+    for (int i = 0; i < nb_players; i++) {
+        if (fscanf(f, "%d", &game[i]->discard_size) != 1) {
+            printf("Error reading discard size for player %d\n", i);
+            fclose(f);
+            exit(1);
         }
+
+        if (game[i]->discard_size > 0) {
+            game[i]->discard_pile = malloc(game[i]->discard_size * sizeof(Card));
+            if (game[i]->discard_pile == NULL) {
+                printf("Memory allocation failed for discard_pile (player %d)\n", i);
+                fclose(f);
+                exit(1);
+            }
+        } else {
+            game[i]->discard_pile = NULL;
+        }
+
         char temp[20], temp2[2];
-        fscanf(f, "%s %d %s ", temp, &game[i]->position, temp2);
-        for (int j=0; j<game[i]->discard_size; j++){
-            fscanf(f, "%d", &game[i]->discard_pile[j].value);
-            game[i]->discard_pile[j].visibility=1;
+        if (fscanf(f, "%s %d %s", temp, &game[i]->position, temp2) != 3) {
+            printf("Error reading metadata for player %d\n", i);
+            fclose(f);
+            exit(1);
+        }
+
+        for (int j = 0; j < game[i]->discard_size; j++) {
+            if (fscanf(f, "%d", &game[i]->discard_pile[j].value) != 1) {
+                printf("Error reading discard card %d for player %d\n", j, i);
+                fclose(f);
+                exit(1);
+            }
+            game[i]->discard_pile[j].visibility = 1;
         }
     }
 
     fclose(f);
 }
+
