@@ -62,33 +62,25 @@ void endgame(Player** game, int nb_player, int row, int col, int max){
        sortArray(scoresresult, nb_player);
        }
     int minIndex=0;
-    int equal=0, minimum=0, a=0;
+    int minimum=0, a=0;
     for (int i=1; i<nb_player; i++){
         if (result[i]<min){
             min=result[i];
             minIndex=i;
         }
     }
-    for (int i=1; i<nb_player; i++){
-      if (scoresresult[i]==scoresresult[i+1]){
-        equal=1;
-        minimum=scoresresult[i];
-        }
-      }
-      
-    for (int i=1; i<nb_player; i++){
-      if (scoresresult[i]==minimum){
-        index[a]=i;
-        a++;
-        }
-      }
-    
-    if (equal==1&&min==equal){
-      printf("\nthere is an equality for %d points ! the top players are :\n", min);
-      for (int b=a; b<=0; b--){
-        printf("player numbered %d named %s",index[b]+1, game[index[b]]->nickname);
-        }
-        
+      if (scoresresult[0]==scoresresult[1]){
+        minimum=scoresresult[1];
+        for (int i=1; i<nb_player; i++){
+          if (scoresresult[i]==minimum){
+          index[a]=i;
+          a++;
+          }
+        }  
+        printf("\nthere is an equality for %d points ! the top players are :\n", min);
+        for (int b=a; b<=0; b--){
+          printf("player numbered %d named %s",index[b]+1, game[index[b]]->nickname);
+        }  
     }
     else{
       printf("\nThe winner of the game is the player number %d, with has    the lowest total of points with %d points, which means %s won!", minIndex+1, min, game[minIndex]->nickname);
