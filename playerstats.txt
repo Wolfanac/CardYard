@@ -1,2 +1,7 @@
+<<<<<<< HEAD
 Name: marc Position: 1  6
 Name: lucas Position: 2  6
+=======
+ 4 Name: marc Position: 1  6
+ 5 Name: lucas Position: 2  6
+>>>>>>> 8b5eabd1e985c6c89ec3072f0ea3ebc775eb007c

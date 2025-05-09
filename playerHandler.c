@@ -3,7 +3,7 @@
 
 
 //Creation of the character, giving him his nickanme, his position in the game, the number of cards he has as well as creating his discard pile
-Player* create_player(int card_user, int pos, int redoing, int* nb_char) {
+Player* create_player(int card_user, int pos, int redoing) {
     if (redoing == 0){
         printf("\nCreating a new player...");
     }
@@ -28,8 +28,11 @@ Player* create_player(int card_user, int pos, int redoing, int* nb_char) {
         j1->card[i].visibility=0;
         j1->card[i].exist="exist";
     }
+    int nb_char;
 
-    j1->nickname=AskNickname(nb_char);
+    j1->nickname=AskNickname(&nb_char);
+
+    j1->nb_char=nb_char;
 
     j1->position=pos;
 
@@ -44,7 +47,7 @@ Player* create_player(int card_user, int pos, int redoing, int* nb_char) {
 
 
 // Recursive fonction that allows the user to confirm, redo or destroy the player
-int CheckPlayer(Player *p, int a, int* nb_char) {
+int CheckPlayer(Player *p, int a) {
     if (p==NULL){
         printf("- Error trying to find the player ");
         exit(1);
@@ -73,7 +76,7 @@ int CheckPlayer(Player *p, int a, int* nb_char) {
     } while (strcmp(changing, "redo") != 0 && strcmp(changing, "erase") != 0);
 
     if (strcmp(changing, "redo") == 0) {
-        *p = *create_player(p->nb_card_user, p->position, 1, nb_char);
+        *p = *create_player(p->nb_card_user, p->position, 1);
         printf("\nThis will be the new player:\n");
         printPlayer(p, 1);
         printf("\nDoes it correspond to what you wanted? (yes/no): ");
@@ -84,7 +87,7 @@ int CheckPlayer(Player *p, int a, int* nb_char) {
             return 1;
         } else {
             free(confirm);
-            return CheckPlayer(p, 1, nb_char);
+            return CheckPlayer(p, 1);
         }
     } else {
         printf("Are you sure you want to delete it? (yes/no): ");
@@ -96,7 +99,7 @@ int CheckPlayer(Player *p, int a, int* nb_char) {
             return 0; 
         } else {
             free(confirm);
-            return CheckPlayer(p, 0, nb_char);
+            return CheckPlayer(p, 0);
         }
     }
 }

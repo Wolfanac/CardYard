@@ -70,12 +70,21 @@ void printCard(Card card, int max){
             else if (j==0 || j==height-1){
                 printf("|");
             }
-            else if (i == (height / 2) && j == (width / 2) - (size/2)) {
+            else if (i== (height / 2 ) && j ==(width/2) - (size/2)-2){
+                selectionEmoji(card);
+            }
+            else if (i == (height / 2) && j == (width / 2) - (size/2)-1) {
                 printf("\033[0m");
                 if (card.visibility == 1) {
                     printf("%d", card.value);
                     j += size - 1;
-                } else {
+                    j++;
+                    selectionEmoji(card);
+                    j=j+2;
+                  
+                }
+               
+                 else {
                     printf("%s", unknown);
                     j += size-1;
                 }
