@@ -55,6 +55,24 @@ void endgame(Player** game, int nb_player, int row, int col, int max){
             minIndex=i;
         }
     }
-    printf("\nThe winner of the game is the player number %d, with has the lowest total of points with %d points, which means %s won!", minIndex+1, min, game[minIndex]->nickname);
+    int tab[nb_player];
+    int index=0, taille=0;
+    for (int i=0; i<nb_player; i++){
+        if (result[i]==min){
+            tab[index]=i;
+            taille++;
+        }
+    }
+    if (taille==1){
+        printf("\nThe winner of the game is the player number %d, with has the lowest total of points with %d points, which means %s won! \n", minIndex+1, min, game[minIndex]->nickname);
+    }
+    else{
+        printf("\nThere is a draw between the players: ");
+        for (int i=0; i<taille; i++){
+            printf("%s ", game[tab[i]]->nickname);
+        }
+        printf("with a total of %d points\n", min);
+    }
+
     free(result);
 }
