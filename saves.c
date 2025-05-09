@@ -73,7 +73,7 @@ void principale_deck_save(int number_of_cards, Card* main_pile) {
 }
 
 void saveDiscardPile(Player** game, int nb_players) {
-    FILE* f = fopen("DiscardSave.txt", "w+");
+    FILE* f = fopen("discardsave.txt", "w+");
     if (f == NULL) {
         printf("Error opening DiscardSave.txt\n");
         exit(1);
