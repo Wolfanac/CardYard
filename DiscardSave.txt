@@ -1,1 +1,2 @@
-DiscardPileNumber 1 :NULLDiscardPileNumber 2 : 1
+2 DiscardPileNumber 1 : 7 2
+2 DiscardPileNumber 2 : 7 8

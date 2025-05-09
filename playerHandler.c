@@ -3,7 +3,7 @@
 
 
 //Creation of the character, giving him his nickanme, his position in the game, the number of cards he has as well as creating his discard pile
-Player* create_player(int card_user, int pos, int redoing) {
+Player* create_player(int card_user, int pos, int redoing, int* nb_char) {
     if (redoing == 0){
         printf("\nCreating a new player...");
     }
@@ -29,7 +29,7 @@ Player* create_player(int card_user, int pos, int redoing) {
         j1->card[i].exist="exist";
     }
 
-    j1->nickname=AskNickname();
+    j1->nickname=AskNickname(nb_char);
 
     j1->position=pos;
 
@@ -44,7 +44,7 @@ Player* create_player(int card_user, int pos, int redoing) {
 
 
 // Recursive fonction that allows the user to confirm, redo or destroy the player
-int CheckPlayer(Player *p, int a) {
+int CheckPlayer(Player *p, int a, int* nb_char) {
     if (p==NULL){
         printf("- Error trying to find the player ");
         exit(1);
@@ -73,7 +73,7 @@ int CheckPlayer(Player *p, int a) {
     } while (strcmp(changing, "redo") != 0 && strcmp(changing, "erase") != 0);
 
     if (strcmp(changing, "redo") == 0) {
-        *p = *create_player(p->nb_card_user, p->position, 1);
+        *p = *create_player(p->nb_card_user, p->position, 1, nb_char);
         printf("\nThis will be the new player:\n");
         printPlayer(p, 1);
         printf("\nDoes it correspond to what you wanted? (yes/no): ");
@@ -84,7 +84,7 @@ int CheckPlayer(Player *p, int a) {
             return 1;
         } else {
             free(confirm);
-            return CheckPlayer(p, 1);
+            return CheckPlayer(p, 1, nb_char);
         }
     } else {
         printf("Are you sure you want to delete it? (yes/no): ");
@@ -96,14 +96,14 @@ int CheckPlayer(Player *p, int a) {
             return 0; 
         } else {
             free(confirm);
-            return CheckPlayer(p, 0);
+            return CheckPlayer(p, 0, nb_char);
         }
     }
 }
 
 
 //Fonction that create a name and return it by allocating the exact memory it should have
-char* AskNickname(){
+char* AskNickname(int* nb_char_end){
     char* name = NULL;
     char* temp = NULL;
     int ch;
@@ -160,6 +160,8 @@ char* AskNickname(){
     }
     strcpy(name, temp);
     free(temp);
+
+    *nb_char_end=nb_char;
 
     return name;
 }

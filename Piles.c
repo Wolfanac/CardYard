@@ -81,14 +81,18 @@ Card DrawCard(Card** pile, int *size){
     for (int i=1; i<*size; i++){
         (*pile)[i-1]=(*pile)[i];
     }
-
-    Card* Newpile=realloc(*pile, (*size-1)*sizeof(Card)); //I didn't have to create a new pile, I could have reallocated the same one, but by doing so it allows us to keep using the main pile even if an error occured, I could, for example, save the current state of the game because the cards in the pile still existed. However if I don't create a new temp, if an error occurs, the pile would be lost so i wouldn't be able to save the game since there would be no card to stock
-    if (Newpile==NULL){
-        printf("- Error allocating the pile");
-        exit(1);
+    if (*size-1==0){
+        free(*pile);
     }
-    *pile=Newpile;
-    (*size)--;
+    else{
+        Card* Newpile=realloc(*pile, (*size-1)*sizeof(Card)); //I didn't have to create a new pile, I could have reallocated the same one, but by doing so it allows us to keep using the main pile even if an error occured, I could, for example, save the current state of the game because the cards in the pile still existed. However if I don't create a new temp, if an error occurs, the pile would be lost so i wouldn't be able to save the game since there would be no card to stock
+        if (Newpile==NULL){
+            printf("- Error allocating the pile");
+            exit(1);
+        }
+        *pile=Newpile;
+        (*size)--;
+    }
 
     return drawnCard;
 }
