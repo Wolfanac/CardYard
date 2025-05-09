@@ -13,11 +13,10 @@ int main(){
     int nb_player;
     int nb_card_user;
     int row, col;           
-    int nb_char;
     int turn_number;
 
 
-    if (loadingEverything(game, pile, &size_main_pile, &nb_player, &nb_card_user, &nb_char, &row, &col, &highest_card, &turn_number)==0){
+    if (loadingEverything(&game, &pile, &size_main_pile, &nb_player, &nb_card_user, &row, &col, &highest_card, &turn_number) == 0){
         printf("\nCardYard - Games Rules\nObjective\nEnd the game with the lowest total score. The game ends when a player reveal all of his cards or if there is no more cards in pile. The player with the lowest score at that time wins.");
         printf("\n\nCards and Setup\nUse a deck of cards numbered -2 to 12 (140 cards total)\nEach player gets x cards, where x is the number you will enter\nEvery player flips over 2 cards of their choice at the start\nThe rest of the cards form the draw pile, and each player starts the game with an empty discard pile");
         printf("\n\nTurn\nOn your turn you draw the top card from the main pile and then have two choices:\n    Swap it with one card from your board, revealed or not, that you will discard\n    Take the top card of any player's discard Pile and same thing as above\nAll cards swaped go face up");
@@ -29,12 +28,12 @@ int main(){
     
     
         printf("\nThe main pile will have 140 cards");
-        printf("\nYou will have the chance to save at the beginning of each turn by pressing 'S' or 's'");
+        printf("\nYou will have the chance to save at the end of each turn by pressing 'S' or 's'");
         size_main_pile=140;
         pile=malloc(size_main_pile*sizeof(Card));
         createPile(file, pile, size_main_pile);
     
-        game=InitGame(file, &nb_player, &nb_card_user, &nb_char);
+        game=InitGame(file, &nb_player, &nb_card_user);
         if (game==NULL){
             printf("- Error - Game could not be initialized.\n");
             exit(1);
@@ -57,7 +56,7 @@ int main(){
     while (takeTurn(game, game[index], pile, &size_main_pile, highest_card, row, col, nb_player, nb_card_user, 0)){
         index++;
         if (index==nb_player){
-            saving_input_warden(game, size_main_pile, nb_player, nb_char, row, col, highest_card, turn_number+1, pile);
+            saving_input_warden(game, size_main_pile, nb_player, row, col, highest_card, turn_number+1, pile);
             turn_number++;
             index-=nb_player;
             numberTurn(turn_number);
@@ -79,13 +78,28 @@ int main(){
     endgame(game, nb_player, row, col, highest_card);
     
     for (int i = 0; i < nb_player; i++) {
-        free(game[i]);
+        if (game[i] != NULL) {
+            for (int j = 0; j < game[i]->nb_card_user; j++) {
+                free(game[i]->card[j].exist);
+            }
+    
+            free(game[i]->card);
+    
+            free(game[i]->nickname);
+    
+            if (game[i]->discard_pile != NULL) {
+                free(game[i]->discard_pile);
+            }
+    
+            free(game[i]);
+        }
     }
     free(game);
-
     free(pile);
 
-    fclose(file);
-
+    if (file != NULL) {
+        fclose(file);
+    }
+    
     return 0;
 }

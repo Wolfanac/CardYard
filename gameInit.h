@@ -1,6 +1,6 @@
 #include "player.h"
 
-Player** InitGame(FILE* file, int* nb_player, int* nb_card_user, int* nb_char);
+Player** InitGame(FILE* file, int* nb_player, int* nb_card_user);
 
 void choseRowCol(int* row, int* col, int nb_card_user);
 

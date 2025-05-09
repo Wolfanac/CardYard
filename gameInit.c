@@ -4,7 +4,7 @@
 
 //Fonction that initiates the game
 //Creating number of player, number of cards, and the board with all players that are going to be created
-Player** InitGame(FILE* file, int* nb_player, int *nb_card_user, int* nb_char){  
+Player** InitGame(FILE* file, int* nb_player, int *nb_card_user){  
     if (file==NULL || nb_player==NULL || nb_card_user==NULL){
         printf("- Error initiating game ");
         exit(1);
@@ -59,8 +59,8 @@ Player** InitGame(FILE* file, int* nb_player, int *nb_card_user, int* nb_char){
     int validPlayer = 0;
     int tempNumberPlayer=*nb_player;
     for (int i = 0; i < *nb_player; i++) {
-        Player* new_player = create_player(*nb_card_user, validPlayer+1, 0, nb_char);
-        if (CheckPlayer(new_player, 0, nb_char) == 1) {
+        Player* new_player = create_player(*nb_card_user, validPlayer+1, 0);
+        if (CheckPlayer(new_player, 0) == 1) {
             game[validPlayer] = new_player;
             validPlayer++;
             printf("The player has been created with success\n");
@@ -143,12 +143,18 @@ void initiatePlayerboard(Player** game, int nb_player, int nb_card, Card** pile,
         exit(1);
     }
     int temp;
-    int index;
+    int index=0;
     for (int i=0; i<nb_player; i++){
         printf("\nCreating the board for the player number %d...", game[i]->position);
         for (int j=0; j<nb_card; j++){
             Card CardDrawn=DrawCard(pile, size_deck);
             game[i]->card[j].value=CardDrawn.value;
+            game[i]->card[j].visibility = 0; 
+            game[i]->card[j].exist = strdup("exist");
+            if (game[i]->card[j].exist == NULL) {
+                printf("- Error allocating memory for card.exist (player %d, card %d)\n", i, j);
+                exit(1);
+            }
         }
         printf("\nThis is your actual board: ");
         printBoard(game[i], row, col, highest_card);
@@ -246,7 +252,7 @@ int takeTurn(Player** game, Player* p, Card* main_pile, int* size_main_pile, int
                 printf("You need to enter a number. Type again: ");
                 continue;
             }
-            if (index<=0||index>nb_card){
+            if (index<=0||index>p->nb_card_user){
                 printf("\n- Error - Wrong number - Try again ");
                 continue;
             }
@@ -257,7 +263,7 @@ int takeTurn(Player** game, Player* p, Card* main_pile, int* size_main_pile, int
             if (index==temp){
                 printf("\n- Error - Number already chosen. Type again ");
             }
-        }while (index<=0||index>nb_card||index==temp||strcmp(p->card[index-1].exist, "destroyed")==0||see!=1);
+        }while (index<=0||index>p->nb_card_user||index==temp||strcmp(p->card[index-1].exist, "destroyed")==0||see!=1);
         index--;
         replaceCard(p, cardDrawn, index, max);
     }
@@ -291,7 +297,7 @@ int takeTurn(Player** game, Player* p, Card* main_pile, int* size_main_pile, int
                 printf("You need to enter a number. Type again: ");
                 continue;
             }
-            if (index<=0||index>nb_card){
+            if (index<=0||index>p->nb_card_user){
                 printf("\n- Error - Wrong number - Try again ");
                 continue;
             }
@@ -302,7 +308,7 @@ int takeTurn(Player** game, Player* p, Card* main_pile, int* size_main_pile, int
             if (index==temp){
                 printf("\n- Error - Number already chosen. Type again ");
             }
-        }while (index<=0||index>nb_card||index==temp||strcmp(p->card[index-1].exist, "destroyed")==0||see!=1);
+        }while (index<=0||index>p->nb_card_user||index==temp||strcmp(p->card[index-1].exist, "destroyed")==0||see!=1);
         index--;
         replaceCard(p, cardStolen, index, max);
         
