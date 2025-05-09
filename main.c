@@ -80,10 +80,8 @@ int main(){
     for (int i = 0; i < nb_player; i++) {
         if (game[i] != NULL) {
             for (int j = 0; j < game[i]->nb_card_user; j++) {
-                if (game[i]->card[j].exist != NULL && game[i]->card[j].exist != "exist" && game[i]->card[j].exist != "destroyed") {
-                    free(game[i]->card[j].exist);
-                }
-    }
+                free(game[i]->card[j].exist);
+            }
     
             free(game[i]->card);
     
