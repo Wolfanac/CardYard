@@ -2,10 +2,14 @@
 #include "player.h"
 
 //Fonction that looks if every card got revealed and if so return 1
-int checkEnd(Player* p){
+int checkEnd(Player* p, int size_main_pile){
     if (p==NULL){
         printf("- Error finding the player");
         exit(1);
+    }
+    if (size_main_pile==0){
+        printf("\nNo more cards in the main pile ");
+        return 1;
     }
     for (int i=0; i<p->nb_card_user; i++){
         if (p->card[i].visibility==0){

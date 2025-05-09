@@ -4,33 +4,13 @@
 
 //Fonction that initiates the game
 //Creating number of player, number of cards, and the board with all players that are going to be created
-Player** InitGame(FILE* file, int* nb_player, int *nb_card_user){  
+Player** InitGame(FILE* file, int* nb_player, int *nb_card_user, int* nb_char){  
     if (file==NULL || nb_player==NULL || nb_card_user==NULL){
         printf("- Error initiating game ");
         exit(1);
     }
 
-    //Number of cards
-    printf("\n\nHow many cards will you start with ? ");
     int see=0;
-    do{
-        see=scanf("%d", nb_card_user);
-        empty_buffer();
-        if (see!=1){
-            printf("You need to enter a number. Type again: ");
-            continue;
-        }
-        if (*nb_card_user<0){
-            printf("It may be difficult to play with a negative number of cards, choose another number ");
-        }
-        else if (IsPrimeNumber(*nb_card_user)){
-            printf("You must chose a number which isn't a prime one ");
-        } 
-        else if (*nb_card_user<6 || *nb_card_user>30){
-            printf("We think that with this number of cards, the game won't be enjoyable, so you need to choose a new value ");
-        }
-    }while (*nb_card_user<0 || *nb_card_user<6 || *nb_card_user>30 || IsPrimeNumber(*nb_card_user)||see!=1);
-
     //Number of players
     printf("\nHow many players ? ");
     do {
@@ -45,6 +25,29 @@ Player** InitGame(FILE* file, int* nb_player, int *nb_card_user){
         }
     } while (*nb_player<2||*nb_player>8||see!=1);
 
+    //Number of cards
+    printf("\nHow many cards will you start with ? ");
+    do{
+        see=scanf("%d", nb_card_user);
+        empty_buffer();
+        if (see!=1){
+            printf("You need to enter a number. Type again: ");
+            continue;
+        }
+        if (*nb_card_user<0){
+            printf("It may be difficult to play with a negative number of cards, choose another number ");
+        }
+        if (*nb_card_user>140/((*nb_player)*2)){
+            printf("We want you to chose a lower number as there will not be enough cards in main pile. Put another number ");
+        }
+        else if (IsPrimeNumber(*nb_card_user)){
+            printf("You must chose a number which isn't a prime one ");
+        } 
+        else if (*nb_card_user<6 || *nb_card_user>30){
+            printf("We think that with this number of cards, the game won't be enjoyable, so you need to choose a new value ");
+        }
+    }while (*nb_card_user<0 || *nb_card_user<6 || *nb_card_user>30 || IsPrimeNumber(*nb_card_user)||*nb_card_user>140/((*nb_player)*2)||see!=1);
+
     //Create the board
     Player** game = malloc(*(nb_player) * sizeof(Player*));
     if (game==NULL){
@@ -56,8 +59,8 @@ Player** InitGame(FILE* file, int* nb_player, int *nb_card_user){
     int validPlayer = 0;
     int tempNumberPlayer=*nb_player;
     for (int i = 0; i < *nb_player; i++) {
-        Player* new_player = create_player(*nb_card_user, validPlayer+1, 0);
-        if (CheckPlayer(new_player, 0) == 1) {
+        Player* new_player = create_player(*nb_card_user, validPlayer+1, 0, nb_char);
+        if (CheckPlayer(new_player, 0, nb_char) == 1) {
             game[validPlayer] = new_player;
             validPlayer++;
             printf("The player has been created with success\n");
@@ -187,6 +190,10 @@ int takeTurn(Player** game, Player* p, Card* main_pile, int* size_main_pile, int
         exit(1);
     }
     int discard_possibility=0;
+    int draw_possibility=1;
+    if (*size_main_pile==0){
+        draw_possibility=0;
+    }
     printf("\nIt's the turn of the player number %d, named %s", p->position, p->nickname);
     printf("\nYour board is the following one: ");
     printBoard(p, row, col, max);
@@ -206,7 +213,7 @@ int takeTurn(Player** game, Player* p, Card* main_pile, int* size_main_pile, int
     Card cardDrawn=DrawCard(&main_pile, size_main_pile);
     printf("\nThe card drawn is :");
     printCard(cardDrawn, max);
-    if (discard_possibility==1){
+    if (discard_possibility==1 && draw_possibility==1){
         printf("\nWould you like to play the drawn card from the main deck or take a card from a discard pile ? Enter 'draw' or 'discard' ");
         do {
             scanf("%s", takeCard);
@@ -215,6 +222,14 @@ int takeTurn(Player** game, Player* p, Card* main_pile, int* size_main_pile, int
                 printf("\nInvalid input. Please type 'draw' or 'discard'.\n");
             }
         } while (strcmp(takeCard, "draw") != 0 && strcmp(takeCard, "discard") != 0);
+    }
+    else if (discard_possibility==0 && draw_possibility==0){
+        printf("\nNo more cards in deck or in discard piles, you cannot do anything");
+        strcpy(takeCard, "Nothing");
+    }
+    else if (draw_possibility==0){
+        printf("\nThere is no more cards in the deck you can only take a card from a discard pile");
+        strcpy(takeCard, "discard");
     }
     else{
         printf("\nAs no one has any card in their discard pile, you can only play the card drawn");
@@ -246,7 +261,7 @@ int takeTurn(Player** game, Player* p, Card* main_pile, int* size_main_pile, int
         index--;
         replaceCard(p, cardDrawn, index, max);
     }
-    else {
+    else if (strcmp(takeCard, "discard") == 0){
         int choix;
         int see=0;
         do {
@@ -295,7 +310,7 @@ int takeTurn(Player** game, Player* p, Card* main_pile, int* size_main_pile, int
     checkCol(p, row, col);
 
     //If end return 0 so the while from main ends, if the while is already over then last turn else continue the game
-    if (checkEnd(p)==1){
+    if (checkEnd(p, *(size_main_pile))==1){
         return 0;
     }
     else if (over==1){

@@ -4,10 +4,10 @@ CY project - 1st year
 CardYard – Règles du jeu
 
 Objectif
-Terminer la partie avec le score total le plus bas. La partie se termine lorsqu’un joueur a révélé toutes ses cartes. À ce moment-là, le joueur avec le score le plus bas remporte la partie.
+Terminer la partie avec le score total le plus bas. La partie se termine lorsqu’un joueur a révélé toutes ses cartes ou que la pile principale est vide. À ce moment-là, les joueurs n'ayant pas encore joué du tour peuvenet jouer puis celui avec le score le plus bas remporte la partie.
 
 Cartes et mise en place
-Utilisez un paquet de cartes numérotées de -2 à 12 (140 cartes au total).
+Utilisez un paquet de cartes numérotées de -2 à 12 (140 cartes au total). Les valeurs pourront être modifiés par la suite
 Chaque joueur reçoit un certain nombre de cartes, déterminé au début de la partie.
 Au début, chaque joueur retourne face visible deux cartes de son choix.
 Les cartes restantes forment la pioche principale. Chaque joueur commence aussi avec une pile de défausse vide.

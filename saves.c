@@ -1,100 +1,56 @@
 #include "include.h"
 #include "player.h"
 
-void LoadDiscardPile(Player** game, int nb_players) {
-    FILE* f = fopen("discardsave.txt", "r");
-    if (f == NULL) {
-        printf("Error opening discardsave.txt\n");
+void saving_input_warden(Player** game, int nb_cards_pile, int nb_players, int nb_char, int row, int col, int max, int turn, Card* main_pile) {
+    char c;
+    printf("\nSaving now, then press 's' or 'S'? You can skip this by pressing any key and Enter or juste Enter: ");
+    scanf("%c", &c);
+    if (c == 'S' || c == 's') {
+        printf("\nBeginning the saving process");
+        ask_save(game, nb_cards_pile, nb_players, nb_char, row, col, max, turn, &main_pile);
+        return;
+    } else if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')) {
+        return;
+    } else {
+        return;
+    }
+}
+
+void ask_save(Player** game, int nb_cards_pile, int nb_players, int nb_char, int row, int col, int max, int turn, Card** main_pile) {
+    char a;
+    do {
+        printf("\nAre you sure about saving the game? (Y for yes, N for no): ");
+        scanf(" %c", &a);
+    } while (a != 'Y' && a != 'y' && a != 'N' && a != 'n');
+
+    if (a == 'N' || a == 'n') {
+        printf("\nSave cancelled.\n");
         return;
     }
 
-    char line[256];
-    int player_index = 0;
+    printf("\nBeginning of the saving process...\n");
+    beginingsave(nb_players, nb_char, nb_cards_pile, row, col, max, turn);
+    principale_deck_save(nb_cards_pile, *main_pile);
+    printf("\nDeck saved successfully! Proceeding with the discard players stats...\n");
+    playerStatsave(game, nb_players);
+    printf("\nStats saved, now turn of the discard pile");
+    saveDiscardPile(game, nb_players);
+    printf("\nDiscard piles saved! Dealing with the boards...\n");
+    savingBoard(game, nb_players);
+    printf("\nSaving complete. Restart the game and load you game if you want to resume it\n");
 
-    while (fgets(line, sizeof(line), f) && player_index < nb_players) {
-        char* ptr = strchr(line, ':');
-        if (ptr != NULL) {
-            ptr++;
-            int count = 0;
-            int val;
-            char* temp = ptr;
-            while (sscanf(temp, "%d", &val) == 1) {
-                count++;
-                while (*temp != ' ' && *temp != '\0') temp++;
-                while (*temp == ' ') temp++;
-            }
-            if (count > 0) {
-                game[player_index]->discard_size = count;
-                game[player_index]->discard_pile = malloc(count * sizeof(Card));
-                temp = ptr;
-                int i = 0;
-                while (sscanf(temp, "%d", &val) == 1 && i < count) {
-                    game[player_index]->discard_pile[i].value = val;
-                    game[player_index]->discard_pile[i].visibility = 0;
-                    i++;
-                    while (*temp != ' ' && *temp != '\0') temp++;
-                    while (*temp == ' ') temp++;
-                }
-            } else {
-                game[player_index]->discard_size = 0;
-                game[player_index]->discard_pile = NULL;
-            }
-            player_index++;
-        }
-    }
-    fclose(f);
+    exit(0);
 }
 
-void SaveDiscardPile(Player** game, int nb_players) {
-    FILE* f = fopen("DiscardSave.txt", "w+");
-    if (f == NULL) {
-        printf("Error opening DiscardSave.txt\n");
+void beginingsave(int nb_player, int nb_char, int nb_cards_pile, int row, int col, int max, int turn){
+    FILE* f=fopen("beginingSave.txt", "w+");
+    if (f==NULL){
+        printf("- Error saving begining values ");
         exit(1);
     }
-
-    for (int k = 0; k < nb_players; k++) {
-        fprintf(f, "DiscardPileNumber %d :", k + 1);  
-        if (game[k]->discard_size == 0 || game[k]->discard_pile == NULL) {
-            fprintf(f, "NULL\n"); 
-            printf("The player %d does not have any discard pile.\n", k + 1);
-            continue;
-        }
-        for (int i = 0; i < game[k]->discard_size; i++) {
-            fprintf(f, " %d", game[k]->discard_pile[i].value);
-        }
-        fprintf(f, "\n");
-    }
+    fprintf(f, "%d %d %d %d %d %d %d", nb_player, nb_char, nb_cards_pile, row, col, max, turn);
 
     fclose(f);
-}
-int* principale_deck_load(int number_of_cards) {
-    FILE* f = fopen("MainDeckSave.txt", "r");
-    if (f == NULL) {
-        printf("Error opening MainDeckSave.txt\n");
-        return NULL ;
-        exit(1);
-    }
-
-    int* principal_deck = calloc(number_of_cards, sizeof(int));
-    if (principal_deck == NULL) {
-        printf("Memory allocation error\n");
-        fclose(f);
-        return NULL;
-        exit(1);
-    }
-
-    int i = 0;
-    while (i < number_of_cards && fscanf(f, "%d", &principal_deck[i]) == 1) {
-        i++;
-
-    }
-
-    if (i != number_of_cards) {
-        printf("Warning: Only %d cards loaded out of %d expected.\n", i, number_of_cards);
-    }
-
-    fclose(f);
-    return principal_deck;
 }
 
 void principale_deck_save(int number_of_cards, Card* main_pile) {
@@ -116,72 +72,231 @@ void principale_deck_save(int number_of_cards, Card* main_pile) {
     fclose(register_zone);
 }
 
-void demandeur_sauvegarde(Player** game, int nb_cards_pile, int nb_players, Card** main_pile) {
-    char a;
-    do {
-        printf("\nAre you sure about saving the game? (Y for yes, N for no): ");
-        scanf(" %c", &a);
-    } while (a != 'Y' && a != 'y' && a != 'N' && a != 'n');
-
-    if (a == 'N' || a == 'n') {
-        printf("\nSave cancelled.\n");
-        return;
+void saveDiscardPile(Player** game, int nb_players) {
+    FILE* f = fopen("DiscardSave.txt", "w+");
+    if (f == NULL) {
+        printf("Error opening DiscardSave.txt\n");
+        exit(1);
     }
 
-    printf("\nBeginning of the saving process...\n");
-    principale_deck_save(nb_cards_pile, *main_pile);
-    printf("\nDeck saved successfully! Proceeding with the discard piles...\n");
-    SaveDiscardPile(game, nb_players);
-    printf("\nDiscard piles saved! Dealing with the player stats...\n");
-    PlayerStatsave(game, nb_players);
-    printf("\nSaving complete. Restart the game and load you game if you want to resume it\n");
-    exit(0);
+    for (int k = 0; k < nb_players; k++) {
+        fprintf(f, "%d DiscardPileNumber %d :", game[k]->discard_size, k + 1);  
+        if (game[k]->discard_size == 0 || game[k]->discard_pile == NULL) {
+            fprintf(f, "NULL\n"); 
+            printf("The player %d does not have any discard pile.\n", k + 1);
+            continue;
+        }
+        for (int i = 0; i < game[k]->discard_size; i++) {
+            fprintf(f, " %d", game[k]->discard_pile[i].value);
+        }
+        fprintf(f, "\n");
+    }
+
+    fclose(f);
 }
 
-void PlayerStatsave(Player** game, int nb_players) {
+void playerStatsave(Player** game, int nb_players) {
     FILE* f = fopen("playerstats.txt", "w+");
     if (f == NULL) {
         printf("Error opening playerstats.txt \n");
         exit(1);
     }
-
  
     for (int i=0; i<nb_players; i++){
         fprintf(f, "Name: %s", game[i]->nickname);
-        fprintf(f, " Position: %d \n", game[i]->position);
-    
+        fprintf(f, " Position: %d ", game[i]->position);
+        fprintf(f, " %d", game[i]->nb_card_user);
+        fprintf(f, "\n");
     }
 
     fclose(f);
 }
 
-void PlayerStatLoad(Player** game, int nb_players) {
+void savingBoard(Player** game, int nb_player){
+    FILE* f=fopen("playersboard.txt", "w+");
+    if (f==NULL){
+        printf("\n- Error saving boards");
+        exit(1);
+    }
+    for (int i=0; i<nb_player; i++){
+        if (game[i] == NULL || game[i]->card == NULL) {
+            printf("\n- Error while loading player ");
+            exit(1);
+        }
+        for (int j=0; j<game[i]->nb_card_user; j++){
+            fprintf(f,"%d %d %s ",  game[i]->card[j].value, game[i]->card[j].visibility,  game[i]->card[j].exist);
+        }
+        fprintf(f, "\n");
+    }
+    fclose(f);
+}
+
+int loadingEverything(Player** game, Card* pile, int* size_main_pile, int* nb_player, int* nb_card_user, int* nb_char, int* row, int* col, int* max, int* turn){
+    if (fopen("beginingSave.txt", "r")==NULL||fopen("MainDeckSave.txt", "r")==NULL||fopen("playerstats.txt", "r")==NULL||fopen("playersboard.txt", "r")==NULL||fopen("discardsave.txt", "r")==NULL){
+        printf("\nNo game to load, you will start a new game: ");
+        pressToContinue();
+        return 0;
+    }
+    printf("Do you want to load the previous game ? ");
+    char* confirm;
+    confirm=YesNoFonction();
+    if (strcmp(confirm, "yes") == 0) {
+        free(confirm);
+        beginingLoad(size_main_pile, nb_char, nb_player, row, col, max, turn);
+        game=malloc(*(nb_player) * sizeof(Player*));
+        pile=malloc(*(size_main_pile)*sizeof(Card));
+        main_deck_load(pile, *size_main_pile);
+        playerStatLoad(game, *nb_player, *nb_card_user);
+        loadingBoards(game, *nb_player);
+        loadDiscardPile(game, *nb_player);
+        printf("game sucessfully loaded, boards will be printed");
+        for (int i=0; i<*nb_player; i++){
+            printf("\nBoard number %d: ", i+1);
+            printBoard(game[i], *row, *col, *max);
+            pressToContinue();
+        }
+        return 1;
+    } 
+    else {
+        free(confirm);
+        printf("\nYou will start a new game ");
+        return 0;
+
+    }
+}
+
+void beginingLoad(int* nb_pile, int* nb_char, int* nb_player, int* row, int* col, int* max, int* turn){
+    FILE* f=fopen("beginingSave.txt", "r");
+    if (f==NULL){
+        printf("- Error loading begining values");
+        exit(1);
+    }
+    rewind(f);
+    int nbpile, nbplayer, nbchar, nbrow, nbcol, valuemax, nbturn;
+    if (fscanf(f, "%d %d %d %d %d %d %d", &nbpile, &nbplayer, &nbchar, &nbrow, &nbcol, &valuemax, &nbturn)==6){
+        nb_pile=&nbpile;
+        nb_char=&nbchar;
+        nb_player=&nbplayer;
+        row=&nbrow;
+        col=&nbcol;
+        max=&valuemax;
+        turn=&nbturn;
+    }
+    else{
+        printf("- Error loading begining values ");
+        exit(1);
+    }
+}
+
+void main_deck_load(Card* pile, int number_of_cards) {
+    if (pile==NULL){
+        printf("- Error loeading main deck ");
+        exit(1);
+    }
+    FILE* f = fopen("MainDeckSave.txt", "r");
+    if (f == NULL) {
+        printf("Error opening MainDeckSave.txt\n");
+        exit(1);
+    }
+    rewind(f);
+
+    for (int i=0; i<number_of_cards; i++){
+        fscanf(f, "%d", &pile[i].value);
+    }
+
+    fclose(f);
+}
+
+void playerStatLoad(Player** game, int nb_players, int nb_char) {
     FILE* f = fopen("playerstats.txt", "r");
     if (f == NULL) {
         printf("Empty file or error opening playerstats.txt\n");
         exit(50);
     }
+    rewind(f);
 
     for (int i = 0; i < nb_players; i++) {
-        fscanf(f, "%s", game[i]->nickname);
-        fscanf(f, "%d", &game[i]->nb_card_user);
-        fscanf(f, "%d", &game[i]->position);
+        if (game[i]==NULL){
+            printf("\n- Error loading player's stats ");
+            exit(1);
+        }
+        char temp1[10], temp2[10];
+        char* name=malloc((nb_char+1)*sizeof(char));
+        if (name==NULL){
+            printf("- Error loading nickname ");
+            exit(1);
+        }
+        int pos, nb_card_user;
+        
+        if (fscanf(f, "%s %s %s %d %d", temp1, name, temp2, &pos, &nb_card_user)==5){
+            game[i]->nickname=malloc((nb_char+1)*sizeof(char));
+            if (game[i]->nickname== NULL){
+                printf("- Error loading nickname ");
+                exit(1);
+            }
+            strcpy(game[i]->nickname, name);
+            game[i]->position=pos;
+            game[i]->nb_card_user=nb_card_user;
+            free(name);
+        }
+        else{
+            printf("- Error loading saved stats ");
+            free(name);
+            exit(1);
+        }
     }
 
     fclose(f);
 }
 
-void saving_input_warden(Player** game, int nb_cards_pile, int nb_players, Card* main_pile) {
-    char c;
-    printf("\nSaving now, then press 's' or 'S'? You can skip this by pressing any key and Enter: ");
-    scanf("%c", &c);
-    if (c == 'S' || c == 's') {
-        printf("\nBeginning the saving process");
-        demandeur_sauvegarde(game, nb_cards_pile, nb_players, &main_pile);
-        return;
-    } else if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')) {
-        return;
-    } else {
+void loadingBoards(Player** game, int nb_player){
+    FILE* f = fopen("playersboard.txt", "r");
+    if (f == NULL) {
+        printf("\n- Error loading boards");
+        exit(1);
+    }
+    rewind(f);
+
+    for (int i = 0; i < nb_player; i++) {
+        if (game[i] == NULL || game[i]->card == NULL) {
+            printf("\n- Error while loading boards ");
+            exit(1);
+        }
+        for (int j = 0; j < game[i]->nb_card_user; j++) {
+            int value, visibility;
+            char exist[10];
+            if (fscanf(f, "%d %d %s", &value, &visibility, exist) == 3) {
+                game[i]->card[j].value = value;
+                game[i]->card[j].visibility = visibility;
+                game[i]->card[j].exist = "exist";
+            } else {
+                printf("\n- Error reading cards for player %d, card %d", i + 1, j + 1);
+                exit(1);
+            }
+        }
+    }
+    fclose(f);
+}
+
+void loadDiscardPile(Player** game, int nb_players) {
+    FILE* f = fopen("discardsave.txt", "r");
+    if (f == NULL) {
+        printf("Error opening discardsave.txt\n");
         return;
     }
+    rewind(f);
+
+    for (int i=0; i<nb_players; i++){
+        fscanf(f, "%d", &game[i]->discard_size);
+        if (game[i]->discard_size!=0){
+            game[i]->discard_pile=malloc(game[i]->discard_size*sizeof(Card));
+        }
+        char temp[20], temp2[2];
+        fscanf(f, "%s %d %s ", temp, &game[i]->position, temp2);
+        for (int j=0; j<game[i]->discard_size; j++){
+            fscanf(f, "%d", &game[i]->discard_pile[j].value);
+        }
+    }
+
+    fclose(f);
 }
