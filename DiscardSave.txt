@@ -1,7 +1,2 @@
-<<<<<<< HEAD
-1 DiscardPileNumber 1 : 10
-1 DiscardPileNumber 2 : 4
-=======
 1 DiscardPileNumber 1 : 9
-1 DiscardPileNumber 2 : -1
->>>>>>> 8b5eabd1e985c6c89ec3072f0ea3ebc775eb007c
+1 DiscardPileNumber 2 : 9

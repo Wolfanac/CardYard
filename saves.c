@@ -134,7 +134,7 @@ void savingBoard(Player** game, int nb_player){
 }
 
 int loadingEverything(Player*** game, Card** pile, int* size_main_pile, int* nb_player, int* nb_card_user, int* row, int* col, int* max, int* turn){
-    if (fopen("beginingSave.txt", "r")==NULL||fopen("MainDeckSave.txt", "r")==NULL||fopen("playerstats.txt", "r")==NULL||fopen("playersboard.txt", "r")==NULL||fopen("discardsave.txt", "r")==NULL){
+    if (fopen("MainDeckSave.txt", "r")==NULL){
         printf("\nNo game to load, you will start a new game: ");
         pressToContinue();
         return 0;
