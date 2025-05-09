@@ -37,6 +37,8 @@ void printBoard(Player* p, int row, int col, int max);
 
 char* colorChoice(Card card, int max);
 
+void selectionEmoji(Card card);
+
 int findHighestCard(Card* pile, int* size_main_pile);
 
 void replaceCard(Player* p, Card replacingCard, int index, int max);
@@ -77,4 +79,3 @@ void loadingBoards(Player** game, int nb_player);
 
 void loadDiscardPile(Player** game, int nb_players);
 
-void selectionEmoji(Card card);
