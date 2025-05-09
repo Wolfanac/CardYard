@@ -70,7 +70,7 @@ void endgame(Player** game, int nb_player, int row, int col, int max){
         }
     }
     for (int i=1; i<nb_player; i++){
-      if (scoresresult[i]==scoresresult[1+1]){
+      if (scoresresult[i]==scoresresult[i+1]){
         equal=1;
         minimum=scoresresult[i];
         }
