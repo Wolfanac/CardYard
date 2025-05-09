@@ -26,8 +26,12 @@ Player* create_player(int card_user, int pos, int redoing) {
     for (int i=0; i<card_user; i++){
         j1->card[i].value=0;
         j1->card[i].visibility=0;
-        j1->card[i].exist="exist";
-    }
+        j1->card[i].exist = strdup("exist");
+        if (j1->card[i].exist == NULL) {
+            printf("- Error allocating 'exist' string for card %d\n", i);
+            exit(1);
+        }    
+}
     int nb_char;
 
     j1->nickname=AskNickname(&nb_char);
