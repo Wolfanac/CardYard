@@ -109,3 +109,19 @@ char* colorChoice(Card card, int max){
         return "\033[31m"; // red
     }
 }
+
+//Fonction which look at the card visibility and value in order to print a specific emoji
+void selectionEmoji(Card card){
+    if (card.value < 0 && card.visibility == 1) {
+        printf( "\xF0\x9F\x8C\x9F"); // 🌟
+    }
+    if (card.value >= 0 && card.value < 4 && card.visibility == 1) {
+        printf("\xF0\x9F\x91\x8D"); // 👍
+    }
+    if (card.value >= 4 && card.value < 9 && card.visibility == 1) {
+        printf("\xF0\x9F\x98\x90"); // 😐
+    }
+    if (card.value >= 9 && card.visibility == 1) {
+        printf("\xE2\x9A\xA0\xEF\xB8\x8F "); // ⚠️ it's width is actually smaller than most emojis which explain the presence of space after the UNICODE sequence
+    }
+}
