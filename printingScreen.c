@@ -71,7 +71,7 @@ void printCard(Card card, int max){
                 printf("|");
             }
             else if (i== (height / 2 ) && j ==(width/2) - (size/2)-2){
-            	selectionEmoji(card);
+                selectionEmoji(card);
             }
             else if (i == (height / 2) && j == (width / 2) - (size/2)-1) {
                 printf("\033[0m");

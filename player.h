@@ -78,3 +78,4 @@ void playerStatLoad(Player** game, int nb_players);
 void loadingBoards(Player** game, int nb_player);
 
 void loadDiscardPile(Player** game, int nb_players);
+

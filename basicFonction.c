@@ -125,3 +125,4 @@ void selectionEmoji(Card card){
         printf("\xE2\x9A\xA0\xEF\xB8\x8F "); // ⚠️ it's width is actually smaller than most emojis which explain the presence of space after the UNICODE sequence
     }
 }
+

@@ -1,2 +1,2 @@
-3 DiscardPileNumber 1 : 15 12 1
-3 DiscardPileNumber 2 : 12 -1 -2
+1 DiscardPileNumber 1 : 9
+1 DiscardPileNumber 2 : -1
