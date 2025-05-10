@@ -1,28 +1,40 @@
 # CardYard
 CY project - 1st year
 
-CardYard – Règles du jeu
+# Objective
+End the game with the lowest total score. The game end when a player revealed all the cards of his board or if the principal deck is empty. At this point, players that didn't played their turn can play then the one with the lowest score wins the game
+Use a card deck going from -2 to 12 (140 cards summed up). The values can be edited afterwards.
+Every player gets an amount of cards determined at the beginning of the game.
+At the start, each player reveal 2 cards of its choice.
+The leftover cards form the principal deck.Every player begin with an empty discard pile.
+During your turn, you pick a card from the principal deck, you then have 2 options:
+-Either you swap it with a card of your board (revealed or not), that you discard afterwards.
+-Or take the card on top of your discard pile and swap it the same way.
+Every swapped cards are revealed.
+When a column of your board contain uniquely indentical cards, they are destroyed (removed from the game).
+When a player have revealed all its card, the turn must be finished. Then, every players reveal their last cards and count their scores. The player with the lowest score wins the game.
 
-Objectif
-Terminer la partie avec le score total le plus bas. La partie se termine lorsqu’un joueur a révélé toutes ses cartes ou que la pile principale est vide. À ce moment-là, les joueurs n'ayant pas encore joué du tour peuvenet jouer puis celui avec le score le plus bas remporte la partie.
 
-Cartes et mise en place
-Utilisez un paquet de cartes numérotées de -2 à 12 (140 cartes au total). Les valeurs pourront être modifiés par la suite
-Chaque joueur reçoit un certain nombre de cartes, déterminé au début de la partie.
-Au début, chaque joueur retourne face visible deux cartes de son choix.
-Les cartes restantes forment la pioche principale. Chaque joueur commence aussi avec une pile de défausse vide.
+# Requirements
+A Linux terminal with atleast 3Mb of storage (works with WSL)
+https://learn.microsoft.com/en-us/windows/wsl/install
 
-Déroulement d’un tour
-À votre tour, piochez la carte du dessus de la pile principale, puis choisissez entre deux options :
 
--L’échanger avec une carte de votre plateau (révélée ou non), que vous défaussez.
+# Installation
+Once you are in your terminal, write the following command:
+**git clone https://github.com/Wolfanac/CardYard.git**
+Enter the file with the **cd** command and compile everything by writing **make**
 
--Prendre la carte du dessus de la pile de défausse d’un autre joueur et l’échanger de la même manière.
-    
-Toutes les cartes échangées sont posées face visible.
+# Utilisation
+You will have the chance to use a drawn card from the main pile by typing draw and write the position the card you want to swap ("I want to use the -2 i just drawn on my 12 at the third position, i will then have to type "draw" and "3")
+The process is the same if you want to use a card of a discard pile, you will just have to type the position of the player's discard pile beforehand ("I want to use the -2 the first player just discarded on my 12 and the third position, i will then have to type "discard" and "1" and "3")
 
-Destruction de colonne
-Lorsqu’une colonne de votre plateau contient uniquement des cartes identiques, elle est détruite (retirée du jeu).
+You can save at the end of each turn by typing S,and Y to confirm the beginning of the saving process.You will have a chance to load your previous game at the beginning of the character creation in your next game.
 
-Fin de partie
-Quand un joueur a révélé toutes ses cartes, on termine le tour en cours. Ensuite, tous les joueurs révèlent leurs cartes restantes et comptent leurs scores. Le joueur avec le score total le plus bas gagne la partie.
+# Built with
+### C language
+https://cours.cyu.fr/course/view.php?id=334
+https://cours.cyu.fr/course/view.php?id=340
+
+# Documentation
+https://www.unicode.org/charts/PDF/U2600.pdf
