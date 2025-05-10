@@ -34,8 +34,8 @@ You can save at the end of each turn by typing S,and Y to confirm the beginning 
 
 # Built with
 ### C language
-https://cours.cyu.fr/course/view.php?id=334 (First semester IT course)
-https://cours.cyu.fr/course/view.php?id=340 (Second semester IT course)
+https://www.mediafire.com/folder/gqsed29a0bknb/Supports+de+CM-20250511 -(First semester IT course)
+https://www.mediafire.com/folder/at1v1pb58qokk/Supports+de+cours+(CERGY)-20250511 -  (Second semester IT course)
 
 # Documentation
 https://www.unicode.org/charts/PDF/U2600.pdf
