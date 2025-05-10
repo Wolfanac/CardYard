@@ -30,7 +30,7 @@ Enter the file with the **cd** command and compile everything by writing **make*
 You will have the chance to use a drawn card from the main pile by typing draw and write the position the card you want to swap ("I want to use the -2 i just drawn on my 12 at the third position, i will then have to type "draw" and "3")
 The process is the same if you want to use a card of a discard pile, you will just have to type the position of the player's discard pile beforehand ("I want to use the -2 the first player just discarded on my 12 and the third position, i will then have to type "discard" and "1" and "3")
 
-You can save at the end of each turn by typing S,and Y to confirm the beginning of the saving process.You will have a chance to load your previous game at the beginning of the character creation in your next game.
+You can save at the end of each turn by typing S,and yes to confirm the beginning of the saving process.You will have a chance to load your previous game at the beginning of the character creation in your next game.
 
 # Built with
 ### C language
