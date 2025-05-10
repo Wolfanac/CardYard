@@ -2,7 +2,8 @@
 CY project - 1st year
 
 # Objective
-End the game with the lowest total score. The game end when a player revealed all the cards of his board or if the principal deck is empty. At this point, players that didn't played their turn can play then the one with the lowest score wins the game
+End the game with the lowest total score. 
+The game end when a player revealed all the cards of his board or if the principal deck is empty. At this point, players that didn't played their turn can play then the one with the lowest score wins the game.
 Use a card deck going from -2 to 12 (140 cards summed up). The values can be edited afterwards.
 Every player gets an amount of cards determined at the beginning of the game.
 At the start, each player reveal 2 cards of its choice.
