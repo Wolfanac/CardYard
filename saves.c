@@ -1,6 +1,7 @@
 #include "include.h"
 #include "player.h"
 
+// Ask the user to save the game. If the user inputs 'S' or 's', it initiates the save process.
 void saving_input_warden(Player** game, int nb_cards_pile, int nb_players, int row, int col, int max, int turn, Card* main_pile) {
     char c;
     printf("\nDo you want to save the game? Put 'S' or 's' as the first letter of you answer to save ");
@@ -16,6 +17,8 @@ void saving_input_warden(Player** game, int nb_cards_pile, int nb_players, int r
     }
 }
 
+
+// Asks the user to confirm the save. If confirmed, calls all functions needed to save the game state.
 void ask_save(Player** game, int nb_cards_pile, int nb_players, int row, int col, int max, int turn, Card** main_pile) {
     printf("\nAre you sure you want to save the game? Type 'yes' or 'no': ");
     char* confirm=YesNoFonction();
@@ -42,6 +45,7 @@ void ask_save(Player** game, int nb_cards_pile, int nb_players, int row, int col
     exit(0);
 }
 
+// Saves some game main data: number of players, pile size, board dimensions, etc.
 void beginingsave(int nb_player, int nb_cards_pile, int row, int col, int max, int turn){
     FILE* f=fopen("beginingSave.txt", "w+");
     if (f==NULL){
@@ -53,6 +57,7 @@ void beginingsave(int nb_player, int nb_cards_pile, int row, int col, int max, i
     fclose(f);
 }
 
+// Saves the main deck's card values.
 void principale_deck_save(int number_of_cards, Card* main_pile) {
     FILE* register_zone = fopen("MainDeckSave.txt", "w+");
     if (register_zone == NULL) {
@@ -72,6 +77,7 @@ void principale_deck_save(int number_of_cards, Card* main_pile) {
     fclose(register_zone);
 }
 
+// Saves each player's discard pile.
 void saveDiscardPile(Player** game, int nb_players) {
     FILE* f = fopen("discardsave.txt", "w+");
     if (f == NULL) {
@@ -95,6 +101,7 @@ void saveDiscardPile(Player** game, int nb_players) {
     fclose(f);
 }
 
+// Saves player stats. number of character, name, position, number of cards.
 void playerStatsave(Player** game, int nb_players) {
     FILE* f = fopen("playerstats.txt", "w+");
     if (f == NULL) {
@@ -114,6 +121,7 @@ void playerStatsave(Player** game, int nb_players) {
     fclose(f);
 }
 
+// Saves all player boards according to the card values, visibility, and status.
 void savingBoard(Player** game, int nb_player){
     FILE* f=fopen("playersboard.txt", "w+");
     if (f==NULL){
@@ -133,6 +141,7 @@ void savingBoard(Player** game, int nb_player){
     fclose(f);
 }
 
+//If there is a file it means the game was saved, so we ask the user if he wants to load it or not. If yes, we call all the functions needed to load the game. Otherwise, we start a new game.
 int loadingEverything(Player*** game, Card** pile, int* size_main_pile, int* nb_player, int* nb_card_user, int* row, int* col, int* max, int* turn){
     if (fopen("MainDeckSave.txt", "r")==NULL){
         printf("\nNo game to load, you will start a new game: ");
@@ -174,6 +183,7 @@ int loadingEverything(Player*** game, Card** pile, int* size_main_pile, int* nb_
     }
 }
 
+// Loads initial values from beginningSave.txt. It will be useful as it allows to allocate the right amount of memory for the game and because those values are keys to load everything else. 
 void beginingLoad(int* nb_pile, int* nb_player, int* row, int* col, int* max, int* turn){
     FILE* f=fopen("beginingSave.txt", "r");
     if (f==NULL){
@@ -189,7 +199,7 @@ void beginingLoad(int* nb_pile, int* nb_player, int* row, int* col, int* max, in
     fclose(f);
 }
 
-
+//Load the main deck from the file MainDeckSave.txt. Put visiblity to 1 for all cards so we can print them afterwards.
 void main_deck_load(Card* pile, int number_of_cards) {
     if (pile==NULL){
         printf("- Error loeading main deck ");
@@ -210,6 +220,7 @@ void main_deck_load(Card* pile, int number_of_cards) {
     fclose(f);
 }
 
+//Loads players stats from the file playerstats.txt.
 void playerStatLoad(Player** game, int nb_players) {
     FILE* f = fopen("playerstats.txt", "r");
     if (f == NULL) {
@@ -258,6 +269,7 @@ void playerStatLoad(Player** game, int nb_players) {
     fclose(f);
 }
 
+// Loads cards on each player board from the file playersboard.txt.
 void loadingBoards(Player** game, int nb_player){
     FILE* f = fopen("playersboard.txt", "r");
     if (f == NULL) {
@@ -292,6 +304,7 @@ void loadingBoards(Player** game, int nb_player){
     fclose(f);
 }
 
+// Loads the discard pile for each player from the file discardsave.txt. It allocates memory for the discard pile by loading the size first and sets the visibility of each card to 1 so we can see them when taking card from discard pile.
 void loadDiscardPile(Player** game, int nb_players) {
     FILE* f = fopen("discardsave.txt", "r");
     if (f == NULL) {
@@ -321,7 +334,7 @@ void loadDiscardPile(Player** game, int nb_players) {
 
         char temp[20], temp2[2];
         if (fscanf(f, "%s %d %s", temp, &game[i]->position, temp2) != 3) {
-            printf("Error reading metadata for player %d\n", i);
+            printf("Error reading data for player %d\n", i);
             fclose(f);
             exit(1);
         }

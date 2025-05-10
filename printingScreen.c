@@ -173,7 +173,7 @@ void printBoard(Player* p, int row, int col, int max) {
     }
 }
 
-
+//Fonction that will print the turn number. It will be used in the main loop of the game
 void numberTurn(int turn_number){
     printf("\nThis is the turn number %d", turn_number);
 }
