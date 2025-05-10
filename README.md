@@ -17,7 +17,7 @@ When a player have revealed all its card, the turn must be finished. Then, every
 
 
 # Requirements
-A Linux terminal with atleast 3Mb of storage (works with WSL)
+A Linux terminal with atleast 3Mb of storage (Use WSL if you are on a Windows OS)
 https://learn.microsoft.com/en-us/windows/wsl/install
 
 
