@@ -35,6 +35,7 @@ You can save at the end of each turn by typing S,and yes to confirm the beginnin
 # Built with
 ### C language
 https://www.mediafire.com/folder/gqsed29a0bknb/Supports+de+CM-20250511 -(First semester IT course)
+https://eu.docworkspace.com/d/cIKTx992tAo_u78AG?from=dco -(progress and bug reports log) 
 https://www.mediafire.com/folder/at1v1pb58qokk/Supports+de+cours+(CERGY)-20250511 -  (Second semester IT course)
 
 # Documentation
