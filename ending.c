@@ -61,6 +61,7 @@ void endgame(Player** game, int nb_player, int row, int col, int max){
         if (result[i]==min){
             tab[index]=i;
             taille++;
+            index++;
         }
     }
     if (taille==1){
